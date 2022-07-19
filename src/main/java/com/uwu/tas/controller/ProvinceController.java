@@ -4,6 +4,7 @@ package com.uwu.tas.controller;
 import com.uwu.tas.dto.CommonResponse;
 import com.uwu.tas.dto.ProvinceDto;
 import com.uwu.tas.entity.Province;
+import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.service.impl.ProvinceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +22,18 @@ public class ProvinceController {
     @PostMapping(value = "/save")
     public ResponseEntity<CommonResponse<String>> saveProvince(@RequestBody ProvinceDto provinceDto) {
 
-        provinceService.saveProvince(provinceDto);
+        try {
+            provinceService.saveProvince(provinceDto);
+        } catch (CustomServiceException e) {
+            return ResponseEntity.ok(new CommonResponse<String>(false, e.getMessage()));
+        }
+
         return ResponseEntity.ok(new CommonResponse<String>(true, "Province saved successfully!"));
     }
 
     @GetMapping(value = "/all")
-    public ResponseEntity<CommonResponse<List<ProvinceDto>>> getAllProvince(){
+    public ResponseEntity<CommonResponse<List<ProvinceDto>>> getAllProvince() {
         List<ProvinceDto> allProvince = provinceService.getAllProvince();
-        return ResponseEntity.ok(new CommonResponse<List<ProvinceDto>>(true,allProvince));
+        return ResponseEntity.ok(new CommonResponse<List<ProvinceDto>>(true, allProvince));
     }
 }
