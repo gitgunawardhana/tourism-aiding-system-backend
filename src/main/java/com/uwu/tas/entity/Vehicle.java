@@ -1,0 +1,47 @@
+package com.uwu.tas.entity;
+
+import com.uwu.tas.enums.GearType;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.List;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Entity
+public class Vehicle {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    private String name;
+    private int noOfSeats;
+
+    @Enumerated(EnumType.STRING)
+    private GearType gearType;
+
+    private boolean childSeats;
+    private boolean availability;
+    private boolean airConditioning;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private VehicleType typeId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Location location;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Vendor vendor;
+
+    @OneToMany(mappedBy = "reservationVehicleDetail")
+    private List<ReservationVehicleDetail> reservationVehicleDetails;
+}

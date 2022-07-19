@@ -44,4 +44,10 @@ public class Location {
 
     @OneToMany(mappedBy = "location")
     private List<LocationPicture> locationPictures;
+
+    @OneToMany(mappedBy = "vehicle")
+    private List<Vehicle> vehicles;
+
+    @OneToMany(mappedBy = "activityLocationDetail")
+    private List<ActivityLocationDetail> activityLocationDetails;
 }
