@@ -18,7 +18,11 @@ public class RoomBathroomFacilityDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Room room;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private BathroomFacility bathroomFacility;
 }

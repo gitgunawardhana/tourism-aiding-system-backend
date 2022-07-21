@@ -35,9 +35,12 @@ public class Room {
     @JoinColumn
     private View view;
 
-    @OneToMany(mappedBy = "roomPicture")
-    @JoinColumn
+    @OneToMany(mappedBy = "room")
     private List<RoomPictures> roomPictures;
+
+    @OneToMany(mappedBy = "room")
+    private List<RoomPackage> roomPackages;
+
 }
 
 

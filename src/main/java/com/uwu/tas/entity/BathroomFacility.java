@@ -24,7 +24,7 @@ public class BathroomFacility {
     private String name;
     private String imageUrl;
 
-    @OneToMany(mappedBy = "BathroomFacility")
-    private List<RoomBathroomFacilityDetail> roomBathroomFacilityDetail;
+    @OneToMany(mappedBy = "bathroomFacility")
+    private List<RoomBathroomFacilityDetail> roomBathroomFacilityDetails;
 
 }

@@ -24,8 +24,8 @@ public class RoomPackage {
     private String bedDetails;
     private boolean payAtProperty;
     private boolean freeCancelation;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn
-//    private Room room;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Room room;
 }
