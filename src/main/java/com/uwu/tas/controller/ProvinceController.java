@@ -3,9 +3,8 @@ package com.uwu.tas.controller;
 
 import com.uwu.tas.dto.CommonResponse;
 import com.uwu.tas.dto.ProvinceDto;
-import com.uwu.tas.entity.Province;
 import com.uwu.tas.exception.CustomServiceException;
-import com.uwu.tas.service.impl.ProvinceService;
+import com.uwu.tas.service.ProvinceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
