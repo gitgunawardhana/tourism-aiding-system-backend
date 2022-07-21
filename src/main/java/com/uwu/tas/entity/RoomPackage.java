@@ -23,7 +23,7 @@ public class RoomPackage {
     private double discount;
     private String bedDetails;
     private boolean payAtProperty;
-    private boolean freeCancelation;
+    private boolean freeCancellation;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn

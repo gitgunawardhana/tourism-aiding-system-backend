@@ -24,6 +24,4 @@ public class RoomFacilityDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
 
-
-
 }
