@@ -31,6 +31,4 @@ public class Driver {
     private String province;
     private String postalCode;
 
-    @OneToMany(mappedBy = "vehicle")
-    private List<Vehicle> vehicles;
 }

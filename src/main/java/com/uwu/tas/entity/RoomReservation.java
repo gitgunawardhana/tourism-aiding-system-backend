@@ -27,6 +27,6 @@ public class RoomReservation {
     @JoinColumn
     private PublicUser publicUser;
 
-    @OneToMany(mappedBy = "reservationPackageDetail")
+    @OneToMany(mappedBy = "roomReservation")
     private List<ReservationPackageDetail> reservationPackageDetailList;
 }

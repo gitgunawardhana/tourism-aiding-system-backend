@@ -32,7 +32,7 @@ public class Vehicle {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
-    private VehicleType typeId;
+    private VehicleType vehicleType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
@@ -42,6 +42,6 @@ public class Vehicle {
     @JoinColumn
     private Vendor vendor;
 
-    @OneToMany(mappedBy = "reservationVehicleDetail")
+    @OneToMany(mappedBy = "vehicle")
     private List<ReservationVehicleDetail> reservationVehicleDetails;
 }

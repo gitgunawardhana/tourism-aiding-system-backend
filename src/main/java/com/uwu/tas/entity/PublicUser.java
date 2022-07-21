@@ -32,10 +32,10 @@ public class PublicUser {
     private String address;
     private String country;
 
-    @OneToMany(mappedBy = "vehicleReservation")
+    @OneToMany(mappedBy = "publicUser")
     private List<VehicleReservation> vehicleReservations;
 
-    @OneToMany(mappedBy = "roomReservation")
+    @OneToMany(mappedBy = "publicUser")
     private List<RoomReservation> roomReservations;
 
 }
