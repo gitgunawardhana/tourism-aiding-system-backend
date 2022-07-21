@@ -1,6 +1,5 @@
 package com.uwu.tas.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,4 +13,5 @@ public class ProvinceDto {
 
     private long id;
     private String name;
+
 }
