@@ -38,9 +38,8 @@ public class Location {
     @UpdateTimestamp
     private LocalDateTime updatedDateTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
-    private Location location;
+    @OneToMany(mappedBy = "location")
+    private List<LocationAttraction> locationAttraction;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
