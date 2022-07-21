@@ -1,6 +1,4 @@
 package com.uwu.tas.entity;
-
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +21,7 @@ public class AccommodationType {
     private String name;
     private String imageUrl;
 
-    @OneToMany(mappedBy = "accommodation")
+    @OneToMany(mappedBy = "accommodationType")
     @JoinColumn
     private List<Accommodation>  accommodations;
 

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,6 +35,9 @@ public class Room {
     @JoinColumn
     private View view;
 
+    @OneToMany(mappedBy = "roomPicture")
+    @JoinColumn
+    private List<RoomPictures> roomPictures;
 }
 
 
