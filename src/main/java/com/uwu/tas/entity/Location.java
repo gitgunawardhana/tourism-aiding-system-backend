@@ -50,4 +50,7 @@ public class Location {
 
     @OneToMany(mappedBy = "location")
     private List<ActivityLocationDetail> activityLocationDetails;
+
+    @OneToMany(mappedBy = "location")
+    private List<LocationAttraction> locationAttractions;
 }
