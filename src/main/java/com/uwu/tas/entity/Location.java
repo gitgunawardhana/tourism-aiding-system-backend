@@ -38,9 +38,6 @@ public class Location {
     @UpdateTimestamp
     private LocalDateTime updatedDateTime;
 
-    @OneToMany(mappedBy = "location")
-    private List<LocationAttraction> locationAttraction;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Province province;
@@ -48,5 +45,12 @@ public class Location {
     @OneToMany(mappedBy = "location")
     private List<LocationPicture> locationPictures;
 
+    @OneToMany(mappedBy = "location")
+    private List<Vehicle> vehicles;
 
+    @OneToMany(mappedBy = "location")
+    private List<ActivityLocationDetail> activityLocationDetails;
+
+    @OneToMany(mappedBy = "location")
+    private List<LocationAttraction> locationAttractions;
 }

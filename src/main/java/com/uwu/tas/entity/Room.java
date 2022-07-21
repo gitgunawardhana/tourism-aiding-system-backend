@@ -37,6 +37,10 @@ public class Room {
 
     @OneToMany(mappedBy = "room")
     private List<RoomPictures> roomPictures;
+
+    @OneToMany(mappedBy = "room")
+    private List<RoomPackage> roomPackages;
+
 }
 
 
