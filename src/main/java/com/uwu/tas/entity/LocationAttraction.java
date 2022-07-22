@@ -1,5 +1,6 @@
 package com.uwu.tas.entity;
 
+import com.uwu.tas.enums.VisibilityStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,9 @@ public class LocationAttraction {
     private String telephone;
     private String email;
     private String website;
+
+    @Enumerated(EnumType.STRING)
+    private VisibilityStatus visibilityStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
