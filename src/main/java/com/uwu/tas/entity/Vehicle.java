@@ -44,4 +44,8 @@ public class Vehicle {
 
     @OneToMany(mappedBy = "vehicle")
     private List<ReservationVehicleDetail> reservationVehicleDetails;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Driver driver;
 }
