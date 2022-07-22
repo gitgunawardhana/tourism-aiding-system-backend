@@ -1,6 +1,5 @@
 package com.uwu.tas.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class AccommodationPictures {
+public class RoomPicture {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +22,5 @@ public class AccommodationPictures {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
-    private Accommodation accommodation;
-
+    private Room room;
 }
