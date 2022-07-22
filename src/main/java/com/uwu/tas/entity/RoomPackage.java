@@ -1,30 +1,31 @@
 package com.uwu.tas.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.bytebuddy.implementation.bytecode.ShiftRight;
 
 import javax.persistence.*;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-public class BathroomFacility {
+public class RoomPackage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String name;
-    private String imageUrl;
+    private int noOfPeople;
+    private double price;
+    private double discount;
+    private String bedDetails;
+    private boolean payAtProperty;
+    private boolean freeCancelation;
 
-    @OneToMany(mappedBy = "bathroomFacility")
-    private List<RoomBathroomFacilityDetail> roomBathroomFacilityDetails;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Room room;
 }

@@ -40,14 +40,17 @@ public class Location {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
-    private Location location;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
     private Province province;
 
     @OneToMany(mappedBy = "location")
     private List<LocationPicture> locationPictures;
 
+    @OneToMany(mappedBy = "location")
+    private List<Vehicle> vehicles;
 
+    @OneToMany(mappedBy = "location")
+    private List<ActivityLocationDetail> activityLocationDetails;
+
+    @OneToMany(mappedBy = "location")
+    private List<LocationAttraction> locationAttractions;
 }

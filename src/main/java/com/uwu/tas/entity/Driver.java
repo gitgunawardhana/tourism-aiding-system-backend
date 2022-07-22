@@ -1,11 +1,9 @@
 package com.uwu.tas.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.bytebuddy.implementation.bytecode.ShiftRight;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,16 +13,22 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class BathroomFacility {
+public class Driver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String name;
-    private String imageUrl;
-
-    @OneToMany(mappedBy = "bathroomFacility")
-    private List<RoomBathroomFacilityDetail> roomBathroomFacilityDetails;
+    private String firstName;
+    private String lastName;
+    private String mobile;
+    private String registrationNo;
+    private String nic;
+    private int age;
+    private String addressLine1;
+    private String addressLine2;
+    private String city;
+    private String province;
+    private String postalCode;
 
 }

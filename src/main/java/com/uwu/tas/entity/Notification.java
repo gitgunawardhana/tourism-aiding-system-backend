@@ -1,30 +1,28 @@
 package com.uwu.tas.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.bytebuddy.implementation.bytecode.ShiftRight;
 
 import javax.persistence.*;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-public class BathroomFacility {
+public class Notification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String name;
-    private String imageUrl;
+    private String message;
+    private LocalDateTime dateTime;
 
-    @OneToMany(mappedBy = "bathroomFacility")
-    private List<RoomBathroomFacilityDetail> roomBathroomFacilityDetails;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private PublicUser publicUser;
 }

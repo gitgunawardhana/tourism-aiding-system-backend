@@ -1,13 +1,12 @@
 package com.uwu.tas.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.bytebuddy.implementation.bytecode.ShiftRight;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -15,16 +14,19 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class BathroomFacility {
+public class RoomReservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String name;
-    private String imageUrl;
+    private LocalDateTime dateTime;
+    private double totalPrice;
 
-    @OneToMany(mappedBy = "bathroomFacility")
-    private List<RoomBathroomFacilityDetail> roomBathroomFacilityDetails;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private PublicUser publicUser;
 
+    @OneToMany(mappedBy = "roomReservation")
+    private List<ReservationPackageDetail> reservationPackageDetailList;
 }
