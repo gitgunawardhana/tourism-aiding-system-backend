@@ -1,5 +1,4 @@
-package com.uwu.tas.controller;
-
+package com.uwu.tas.controller.admin;
 
 import com.uwu.tas.dto.CommonResponse;
 import com.uwu.tas.dto.ProvinceDto;
@@ -20,13 +19,11 @@ public class ProvinceController {
 
     @PostMapping(value = "/save")
     public ResponseEntity<CommonResponse<String>> saveProvince(@RequestBody ProvinceDto provinceDto) {
-
         try {
             provinceService.saveProvince(provinceDto);
         } catch (CustomServiceException e) {
             return ResponseEntity.ok(new CommonResponse<String>(false, e.getMessage()));
         }
-
         return ResponseEntity.ok(new CommonResponse<String>(true, "Province saved successfully!"));
     }
 

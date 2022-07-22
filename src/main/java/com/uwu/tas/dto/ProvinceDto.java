@@ -13,5 +13,4 @@ public class ProvinceDto {
 
     private long id;
     private String name;
-
 }
