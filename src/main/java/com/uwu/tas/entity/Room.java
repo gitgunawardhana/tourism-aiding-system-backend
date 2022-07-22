@@ -36,17 +36,16 @@ public class Room {
     private View view;
 
     @OneToMany(mappedBy = "room")
-    private List<RoomPictures> roomPictures;
+    private List<RoomPicture> roomPictures;
 
     @OneToMany(mappedBy = "room")
     private List<RoomPackage> roomPackages;
 
     @OneToMany(mappedBy = "room")
-    private List<RoomBathroomFacilityDetail> roomBathroomFacilityDetails;
-
-    @OneToMany(mappedBy = "room")
     private List<RoomFacilityDetail> roomFacilityDetails;
 
+    @OneToMany(mappedBy = "room")
+    private List<RoomBathroomFacilityDetail> roomBathroomFacilityDetails;
 }
 
 

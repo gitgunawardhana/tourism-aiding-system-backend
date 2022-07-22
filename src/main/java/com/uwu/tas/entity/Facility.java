@@ -25,5 +25,4 @@ public class Facility {
 
     @OneToMany(mappedBy = "facility")
     private List<RoomFacilityDetail> roomFacilityDetails;
-
 }
