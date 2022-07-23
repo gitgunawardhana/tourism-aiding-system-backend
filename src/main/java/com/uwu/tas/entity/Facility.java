@@ -6,10 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,4 +23,6 @@ public class Facility {
     private String name;
     private String imageUrl;
 
+    @OneToMany(mappedBy = "facility")
+    private List<RoomFacilityDetail> roomFacilityDetails;
 }

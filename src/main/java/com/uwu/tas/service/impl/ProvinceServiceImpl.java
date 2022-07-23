@@ -19,7 +19,7 @@ public class ProvinceServiceImpl implements ProvinceService {
     private final ProvinceRepository provinceRepository;
 
     @Override
-    public void saveProvince(ProvinceDto provinceDto){
+    public void saveProvince(ProvinceDto provinceDto) {
 
         Optional<Province> optionalProvince = provinceRepository.findByName(provinceDto.getName());
         boolean present = optionalProvince.isPresent();
@@ -34,13 +34,12 @@ public class ProvinceServiceImpl implements ProvinceService {
     }
 
     @Override
-    public List<ProvinceDto> getAllProvince(){
+    public List<ProvinceDto> getAllProvince() {
         List<Province> provinces = provinceRepository.findAll();
         List<ProvinceDto> provinceDtos = new ArrayList<>();
-        for (Province p : provinces){
+        for (Province p : provinces) {
             provinceDtos.add(new ProvinceDto(p.getId(), p.getName()));
         }
         return provinceDtos;
     }
-
 }
