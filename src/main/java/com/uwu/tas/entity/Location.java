@@ -31,7 +31,7 @@ public class Location {
     @Lob
     private String description;
 
-    private int minimum_spending_days;
+    private int minimumSpendingDays;
 
     @CreationTimestamp
     private LocalDateTime createdDateTime;

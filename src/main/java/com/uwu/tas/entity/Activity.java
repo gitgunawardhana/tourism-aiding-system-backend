@@ -21,7 +21,8 @@ public class Activity {
 
     private String activityName;
 
-    private String imageUrl;
+    @Lob
+    private byte[] image;
 
     @Enumerated(EnumType.STRING)
     private VisibilityStatus visibilityStatus;

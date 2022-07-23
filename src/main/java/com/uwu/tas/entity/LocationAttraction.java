@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,4 +35,7 @@ public class LocationAttraction {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Location location;
+
+    @OneToMany(mappedBy = "locationAttraction")
+    private List<LocationAttractionPicture> locationAttractionPictures;
 }
