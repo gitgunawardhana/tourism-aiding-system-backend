@@ -1,16 +1,15 @@
-package com.uwu.tas.dto;
+package com.uwu.tas.dto.vendor;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-public class ProvinceDto {
-
-    private long id;
-    private String name;
+public class VendorCodeVerifyDto {
+    private String email;
+    private String code;
 }
