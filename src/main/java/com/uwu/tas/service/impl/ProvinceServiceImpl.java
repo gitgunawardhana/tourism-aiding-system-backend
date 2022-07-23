@@ -1,6 +1,6 @@
 package com.uwu.tas.service.impl;
 
-import com.uwu.tas.dto.ProvinceDto;
+import com.uwu.tas.dto.province.ProvinceDto;
 import com.uwu.tas.entity.Province;
 import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.repository.ProvinceRepository;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class ProvinceServiceImpl implements ProvinceService {
         Optional<Province> optionalProvince = provinceRepository.findByName(provinceDto.getName());
         boolean present = optionalProvince.isPresent();
 
-        if (present){
+        if (present) {
             throw new CustomServiceException("Province name already exists!");
         }
 
@@ -41,5 +42,11 @@ public class ProvinceServiceImpl implements ProvinceService {
             provinceDtos.add(new ProvinceDto(p.getId(), p.getName()));
         }
         return provinceDtos;
+    }
+
+    @Override
+    public List<String> getAllProvinceNames() {
+        List<Province> provinces = provinceRepository.findAll();
+        return provinces.stream().map(Province::getName).collect(Collectors.toList());
     }
 }
