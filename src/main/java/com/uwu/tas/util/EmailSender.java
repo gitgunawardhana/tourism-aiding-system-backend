@@ -16,7 +16,6 @@ public class EmailSender {
 
     @Async
     public void sendEmail(List<String> addresses, String subject, String body) {
-//        log.info("\nNormal mail: Addresses: {} \nSubject: {}", addresses, subject);
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setTo(addresses.toArray(new String[0]));
 
