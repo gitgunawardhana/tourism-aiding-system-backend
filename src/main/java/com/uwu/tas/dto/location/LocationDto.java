@@ -2,10 +2,7 @@ package com.uwu.tas.dto.location;
 
 import com.uwu.tas.dto.activity.ActivityDto;
 import com.uwu.tas.enums.VisibilityStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -13,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class LocationDto {
 
     private long id;
@@ -24,6 +22,7 @@ public class LocationDto {
     private VisibilityStatus visibilityStatus;
     private long provinceId;
     private String provinceName;
+    private String modifiedDateTime;
     private List<String> locationPictures;
     private long numberOfActivities;
     private List<ActivityDto> locationActivities;
