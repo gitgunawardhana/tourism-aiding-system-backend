@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,10 +55,12 @@ public class LocationServiceImpl implements LocationService {
 
         List<LocationPicture> locationPictures = new ArrayList<>();
         for (String picture : locationDto.getLocationPictures()) {
-            LocationPicture locationPicture = new LocationPicture();
-            locationPicture.setImage(base64Handler.getByteArrayFromBase64(picture));
-            locationPicture.setLocation(location);
-            locationPictures.add(locationPicture);
+            if (picture != null) {
+                LocationPicture locationPicture = new LocationPicture();
+                locationPicture.setImage(base64Handler.getByteArrayFromBase64(picture));
+                locationPicture.setLocation(location);
+                locationPictures.add(locationPicture);
+            }
         }
 
         List<ActivityLocationDetail> activityLocationDetails = new ArrayList<>();
@@ -78,15 +82,17 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public void changeLocationStatus(long id, VisibilityStatus status) {
+    public void changeLocationStatus(long id) {
         Location location = locationRepository.findById(id).orElseThrow(() -> new CustomServiceException(404, "Location not found"));
+        VisibilityStatus status = VisibilityStatus.VISIBLE;
+        if (location.getVisibilityStatus().equals(VisibilityStatus.VISIBLE)) status = VisibilityStatus.NOT_VISIBLE;
         location.setVisibilityStatus(status);
         locationRepository.save(location);
     }
 
     @Override
     public List<LocationDto> getAllLocations(String text) {
-        List<Location> locations = locationRepository.findByNameLike(text);
+        List<Location> locations = locationRepository.findAll();
         return locations.stream().map(location -> {
             LocationDto locationDto = new LocationDto();
             locationDto.setId(location.getId());
@@ -98,6 +104,8 @@ public class LocationServiceImpl implements LocationService {
             locationDto.setVisibilityStatus(location.getVisibilityStatus());
             locationDto.setProvinceId(location.getProvince().getId());
             locationDto.setProvinceName(location.getProvince().getName());
+            locationDto.setModifiedDateTime(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                    .format(location.getUpdatedDateTime()));
             locationDto.setNumberOfActivities(activityLocationDetailRepository.countByLocation(location));
             locationDto.setNumberOfAttractions(locationAttractionRepository.countByLocation(location));
             return locationDto;
@@ -126,14 +134,14 @@ public class LocationServiceImpl implements LocationService {
         locationDto.setLocationPictures(locationPictureUrls);
 
         locationDto.setNumberOfActivities(activityLocationDetailRepository.countByLocation(location));
-        List<ActivityLocationDetail> locationActivities = activityLocationDetailRepository.findByLocationAndActivity_VisibilityStatus(location, VisibilityStatus.VISIBLE);
-        List<ActivityDto> activitiesForLocation = locationActivities.stream().map(activityLocationDetail -> {
-            Activity activity = activityLocationDetail.getActivity();
+        List<Activity> activities = activityRepository.findByVisibilityStatus(VisibilityStatus.VISIBLE);
+        List<ActivityDto> activitiesForLocation = activities.stream().map(activity -> {
             return new ActivityDto(
                     activity.getId(),
                     activity.getActivityName(),
                     ACTIVITY_IMAGE_BASE_URL + "/" + activity.getId(),
-                    activity.getVisibilityStatus()
+                    activity.getVisibilityStatus(),
+                    activityLocationDetailRepository.existsByLocationAndActivity(location, activity)
             );
         }).collect(Collectors.toList());
         locationDto.setLocationActivities(activitiesForLocation);
