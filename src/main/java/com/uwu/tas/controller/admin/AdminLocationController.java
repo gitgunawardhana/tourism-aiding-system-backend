@@ -15,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/admin/location")
+@CrossOrigin
 public class AdminLocationController {
 
     private final LocationService locationService;
@@ -22,10 +23,15 @@ public class AdminLocationController {
     @PostMapping(value = "")
     public ResponseEntity createLocation(@RequestBody LocationDto locationDto) {
         try {
+            System.out.println(locationDto);
             locationService.createLocation(locationDto);
             return ResponseEntity.ok(new CommonResponse<>(true, "Location created successfully!"));
         } catch (CustomServiceException e) {
+            e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        }catch (Exception ee) {
+            ee.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
     }
 
@@ -40,9 +46,9 @@ public class AdminLocationController {
     }
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity changeLocationStatus(@PathVariable(value = "id") long id, @RequestParam(value = "status") VisibilityStatus status) {
+    public ResponseEntity changeLocationStatus(@PathVariable(value = "id") long id) {
         try {
-            locationService.changeLocationStatus(id, status);
+            locationService.changeLocationStatus(id);
             return ResponseEntity.ok(new CommonResponse<>(true, "Location status changed successfully!"));
         } catch (CustomServiceException e) {
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
@@ -60,7 +66,7 @@ public class AdminLocationController {
     }
 
     @GetMapping(value = "")
-    public ResponseEntity getLocationById(@RequestParam(value = "text") String text) {
+    public ResponseEntity getAllLocations(@RequestParam(value = "text", required = false) String text) {
         try {
             List<LocationDto> locations = locationService.getAllLocations(text);
             return ResponseEntity.ok(new CommonResponse<>(true, locations));
