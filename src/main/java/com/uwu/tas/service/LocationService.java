@@ -15,7 +15,7 @@ public interface LocationService {
 
     void updateLocation(LocationDto locationDto);
 
-    void changeLocationStatus(long id, VisibilityStatus status);
+    void changeLocationStatus(long id);
 
     List<LocationDto> getAllLocations(String text);
 
