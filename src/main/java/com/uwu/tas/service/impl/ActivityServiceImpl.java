@@ -63,7 +63,8 @@ public class ActivityServiceImpl implements ActivityService {
                 activity.getId(),
                 activity.getActivityName(),
                 ACTIVITY_IMAGE_BASE_URL + "/" + activity.getId(),
-                activity.getVisibilityStatus()
+                activity.getVisibilityStatus(),
+                false
         )).collect(Collectors.toList());
     }
 }
