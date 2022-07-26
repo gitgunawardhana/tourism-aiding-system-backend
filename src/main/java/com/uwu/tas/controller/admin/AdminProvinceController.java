@@ -13,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/admin/province")
+@CrossOrigin
 public class AdminProvinceController {
 
     private final ProvinceService provinceService;
