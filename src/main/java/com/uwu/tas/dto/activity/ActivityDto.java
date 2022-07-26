@@ -15,4 +15,5 @@ public class ActivityDto {
     private String activityName;
     private String image;
     private VisibilityStatus status;
+    private boolean checked;
 }
