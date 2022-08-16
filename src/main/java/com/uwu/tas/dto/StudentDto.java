@@ -5,14 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class StudentDto {
 
-    private long id;
     private String name;
     private int age;
-    private String address;
+
+    public StudentDto(String name) {
+        this.name = name;
+    }
 }

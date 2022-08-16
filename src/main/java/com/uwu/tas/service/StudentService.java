@@ -8,9 +8,8 @@ import java.util.List;
 @Service
 public interface StudentService {
 
-    void saveStudent(StudentDto studentDto);
+    void saveStudent(StudentDto dto);
 
     List<StudentDto> getAllStudents();
 
-    StudentDto getStudentById(long id);
 }

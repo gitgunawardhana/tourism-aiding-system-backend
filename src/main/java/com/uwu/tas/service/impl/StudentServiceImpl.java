@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,54 +17,30 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
 
     @Override
-    public void saveStudent(StudentDto studentDto) {
+    public void saveStudent(StudentDto dto) {
 
         Student student = new Student();
-        student.setName(studentDto.getName());
-        student.setAge(studentDto.getAge());
-        student.setAddress(studentDto.getAddress());
+        student.setName(dto.getName());
+        student.setAge(dto.getAge());
 
         studentRepository.save(student);
     }
 
     @Override
     public List<StudentDto> getAllStudents() {
+
         List<Student> all = studentRepository.findAll();
 
-        List<StudentDto> studentDtoList = new ArrayList<>();
+        List<StudentDto> studentDtos = new ArrayList<>();
 
         for (int i = 0; i < all.size(); i++) {
-            Student s = all.get(i);
+            Student student = all.get(i);
 
-            StudentDto dto = new StudentDto();
-            dto.setId(s.getId());
-            dto.setName(s.getName());
-            dto.setAge(s.getAge());
-            dto.setAddress(s.getAddress());
+            StudentDto dto = new StudentDto(student.getName(), student.getAge());
 
-            studentDtoList.add(dto);
+            studentDtos.add(dto);
         }
 
-        return studentDtoList;
-    }
-
-    @Override
-    public StudentDto getStudentById(long id) {
-        Optional<Student> optionalStudent = studentRepository.findById(id);
-        boolean present = optionalStudent.isPresent();
-        if (present) {
-
-            Student s = optionalStudent.get();
-
-            StudentDto dto = new StudentDto();
-            dto.setId(s.getId());
-            dto.setName(s.getName());
-            dto.setAge(s.getAge());
-            dto.setAddress(s.getAddress());
-
-            return dto;
-        } else {
-            return null;
-        }
+        return studentDtos;
     }
 }

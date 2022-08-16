@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/student")
 public class StudentController {
 
@@ -17,23 +17,18 @@ public class StudentController {
 
     //http://localhost:8080/student/save
     @PostMapping(value = "/save")
-    public ResponseEntity<String> saveStudent(@RequestBody StudentDto studentDto) {
+    public ResponseEntity saveStudent(@RequestBody StudentDto studentDto) {
         studentService.saveStudent(studentDto);
-        return ResponseEntity.ok("Student saved successfully");
+        return ResponseEntity.ok("Student Saved Successfully");
     }
 
     //http://localhost:8080/student/all
     @GetMapping(value = "/all")
-    public ResponseEntity<List<StudentDto>> getAllStudents() {
+    public ResponseEntity getAllStudents() {
         List<StudentDto> allStudents = studentService.getAllStudents();
+
         return ResponseEntity.ok(allStudents);
     }
-
-    //http://localhost:8080/student/by-id
-    @GetMapping(value = "/by-id")
-    public ResponseEntity<StudentDto> getStudentById(@RequestParam(value = "id") long id) {
-        StudentDto studentById = studentService.getStudentById(id);
-        return ResponseEntity.ok(studentById);
-    }
-
 }
+
+//http://localhost:8080/student
