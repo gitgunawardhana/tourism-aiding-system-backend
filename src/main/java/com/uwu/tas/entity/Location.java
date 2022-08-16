@@ -1,5 +1,6 @@
 package com.uwu.tas.entity;
 
+import com.uwu.tas.enums.VisibilityStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,13 +31,16 @@ public class Location {
     @Lob
     private String description;
 
-    private int minimum_spending_days;
+    private int minimumSpendingDays;
 
     @CreationTimestamp
     private LocalDateTime createdDateTime;
 
     @UpdateTimestamp
     private LocalDateTime updatedDateTime;
+
+    @Enumerated(EnumType.STRING)
+    private VisibilityStatus visibilityStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn

@@ -18,7 +18,8 @@ public class LocationPicture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String imageUrl;
+    @Lob
+    private byte[] image;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
