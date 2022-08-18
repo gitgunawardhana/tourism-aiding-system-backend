@@ -1,5 +1,7 @@
 package com.uwu.tas.entity;
 
+import com.uwu.tas.enums.Gender;
+import com.uwu.tas.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +33,12 @@ public class PublicUser {
     private String mobile;
     private String address;
     private String country;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     @OneToMany(mappedBy = "publicUser")
     private List<VehicleReservation> vehicleReservations;

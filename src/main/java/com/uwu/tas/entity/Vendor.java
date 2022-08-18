@@ -1,5 +1,7 @@
 package com.uwu.tas.entity;
 
+import com.uwu.tas.enums.Gender;
+import com.uwu.tas.enums.UserStatus;
 import com.uwu.tas.enums.VendorType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,4 +40,10 @@ public class Vendor {
 
     @Enumerated(EnumType.STRING)
     private VendorType type;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 }
