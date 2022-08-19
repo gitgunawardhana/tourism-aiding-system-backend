@@ -1,6 +1,6 @@
 package com.uwu.tas.dto.location;
 
-import com.uwu.tas.dto.activity.ActivityDto;
+import com.uwu.tas.dto.configuration.ActivityDto;
 import com.uwu.tas.enums.VisibilityStatus;
 import lombok.*;
 

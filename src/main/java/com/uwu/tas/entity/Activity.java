@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,4 +27,7 @@ public class Activity {
 
     @Enumerated(EnumType.STRING)
     private VisibilityStatus visibilityStatus;
+
+    @OneToMany
+    private List<ActivityLocationDetail> activityLocationDetails;
 }

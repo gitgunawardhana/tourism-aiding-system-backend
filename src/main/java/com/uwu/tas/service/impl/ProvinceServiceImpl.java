@@ -1,6 +1,6 @@
 package com.uwu.tas.service.impl;
 
-import com.uwu.tas.dto.province.ProvinceDto;
+import com.uwu.tas.dto.configuration.ProvinceDto;
 import com.uwu.tas.entity.Province;
 import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.repository.ProvinceRepository;

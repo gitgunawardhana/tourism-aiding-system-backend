@@ -1,5 +1,6 @@
 package com.uwu.tas.entity;
 
+import com.uwu.tas.enums.VisibilityStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,9 @@ public class VehicleType {
 
     private String name;
     private double rentalPricePerKm;
+
+    @Enumerated(EnumType.STRING)
+    private VisibilityStatus status;
 
     @OneToMany(mappedBy = "vehicleType")
     private List<Vehicle> vehicles;

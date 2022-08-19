@@ -1,9 +1,7 @@
 package com.uwu.tas.service.impl;
 
-import com.uwu.tas.dto.activity.ActivityDto;
+import com.uwu.tas.dto.configuration.ActivityDto;
 import com.uwu.tas.entity.Activity;
-import com.uwu.tas.entity.ActivityLocationDetail;
-import com.uwu.tas.entity.Location;
 import com.uwu.tas.enums.VisibilityStatus;
 import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.repository.ActivityLocationDetailRepository;
@@ -66,5 +64,14 @@ public class ActivityServiceImpl implements ActivityService {
                 activity.getVisibilityStatus(),
                 false
         )).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteActivity(long id) {
+        Activity activity = activityRepository.findById(id).orElseThrow(() -> new CustomServiceException("Activity not found"));
+        if (activity.getActivityLocationDetails().size() > 0) {
+            throw new CustomServiceException("Activity cannot be deleted. This activity is used under several locations");
+        }
+        activityRepository.delete(activity);
     }
 }

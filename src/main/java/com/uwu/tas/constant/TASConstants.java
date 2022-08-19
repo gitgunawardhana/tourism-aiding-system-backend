@@ -8,5 +8,7 @@ public class TASConstants {
         public static final String ACTIVITY_IMAGE_BASE_URL = IMAGE_BASE_URL + "/activity";
         public static final String LOCATION_IMAGE_BASE_URL = IMAGE_BASE_URL + "/location";
         public static final String LOCATION_ATTRACTION_IMAGE_BASE_URL = IMAGE_BASE_URL + "/location/attraction";
+        public static final String ACCOMMODATION_TYPE_IMAGE_BASE_URL = IMAGE_BASE_URL + "/accommodation/type";
+        public static final String BATHROOM_FACILITY_IMAGE_BASE_URL = IMAGE_BASE_URL + "/accommodation/facility/bathroom";
     }
 }

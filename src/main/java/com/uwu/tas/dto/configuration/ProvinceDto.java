@@ -1,4 +1,4 @@
-package com.uwu.tas.dto.province;
+package com.uwu.tas.dto.configuration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

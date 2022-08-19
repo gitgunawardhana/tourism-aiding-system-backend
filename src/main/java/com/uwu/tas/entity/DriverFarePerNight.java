@@ -18,5 +18,6 @@ import javax.persistence.Id;
 public class DriverFarePerNight {
 
     @Id
+    private long id;
     private double price;
 }

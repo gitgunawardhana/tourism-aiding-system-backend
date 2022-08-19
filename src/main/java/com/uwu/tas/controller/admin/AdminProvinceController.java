@@ -1,7 +1,7 @@
 package com.uwu.tas.controller.admin;
 
 import com.uwu.tas.dto.CommonResponse;
-import com.uwu.tas.dto.province.ProvinceDto;
+import com.uwu.tas.dto.configuration.ProvinceDto;
 import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.service.ProvinceService;
 import lombok.RequiredArgsConstructor;

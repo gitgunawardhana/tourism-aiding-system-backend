@@ -1,7 +1,7 @@
 package com.uwu.tas.controller.admin;
 
 import com.uwu.tas.dto.CommonResponse;
-import com.uwu.tas.dto.activity.ActivityDto;
+import com.uwu.tas.dto.configuration.ActivityDto;
 import com.uwu.tas.enums.VisibilityStatus;
 import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.repository.ActivityRepository;
