@@ -1,10 +1,9 @@
 package com.uwu.tas.controller.admin;
 
 import com.uwu.tas.dto.CommonResponse;
-import com.uwu.tas.dto.configuration.ActivityDto;
-import com.uwu.tas.enums.VisibilityStatus;
+import com.uwu.tas.dto.configuration.FacilityDto;
 import com.uwu.tas.exception.CustomServiceException;
-import com.uwu.tas.service.ActivityService;
+import com.uwu.tas.service.FacilityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,17 +12,17 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/admin/activity")
+@RequestMapping(value = "/admin/facility")
 @CrossOrigin
-public class AdminActivityController {
+public class AdminFacilityController {
 
-    private final ActivityService activityService;
+    private final FacilityService facilityService;
 
     @PostMapping(value = "")
-    public ResponseEntity saveActivity(@RequestBody ActivityDto activityDto) {
+    public ResponseEntity createFacility(@RequestBody FacilityDto facilityDto) {
         try {
-            activityService.saveActivity(activityDto);
-            return ResponseEntity.ok(new CommonResponse<>(true, "Activity saved successfully!"));
+            facilityService.createFacility(facilityDto);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Facility saved successfully!"));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
@@ -34,10 +33,10 @@ public class AdminActivityController {
     }
 
     @PutMapping(value = "")
-    public ResponseEntity updateActivity(@RequestBody ActivityDto activityDto) {
+    public ResponseEntity updateFacility(@RequestBody FacilityDto facilityDto) {
         try {
-            activityService.updateActivity(activityDto);
-            return ResponseEntity.ok(new CommonResponse<>(true, "Activity updated successfully!"));
+            facilityService.updateFacility(facilityDto);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Facility updated successfully!"));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
@@ -48,10 +47,10 @@ public class AdminActivityController {
     }
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity changeActivityStatus(@PathVariable(value = "id") long id, @RequestParam(value = "status") VisibilityStatus status) {
+    public ResponseEntity changeFacilityStatus(@PathVariable(value = "id") long id) {
         try {
-            activityService.changeActivityStatus(id, status);
-            return ResponseEntity.ok(new CommonResponse<>(true, "Activity status changed successfully!"));
+            facilityService.changeFacilityStatus(id);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Facility status changed successfully!"));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
@@ -62,10 +61,10 @@ public class AdminActivityController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity deleteActivity(@PathVariable(value = "id") long id) {
+    public ResponseEntity deleteFacility(@PathVariable(value = "id") long id) {
         try {
-            activityService.deleteActivity(id);
-            return ResponseEntity.ok(new CommonResponse<>(true, "Activity deleted successfully!"));
+            facilityService.deleteFacility(id);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Facility deleted successfully!"));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
@@ -76,10 +75,10 @@ public class AdminActivityController {
     }
 
     @GetMapping(value = "")
-    public ResponseEntity getAllActivities() {
+    public ResponseEntity getAllFacilities() {
         try {
-            List<ActivityDto> allActivities = activityService.getAllActivities();
-            return ResponseEntity.ok(new CommonResponse<>(true, allActivities));
+            List<FacilityDto> allFacilities = facilityService.getAllFacilities();
+            return ResponseEntity.ok(new CommonResponse<>(true, allFacilities));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));

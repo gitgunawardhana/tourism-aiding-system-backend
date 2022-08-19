@@ -1,10 +1,9 @@
 package com.uwu.tas.controller.admin;
 
 import com.uwu.tas.dto.CommonResponse;
-import com.uwu.tas.dto.configuration.ActivityDto;
-import com.uwu.tas.enums.VisibilityStatus;
+import com.uwu.tas.dto.configuration.AccommodationTypeDto;
 import com.uwu.tas.exception.CustomServiceException;
-import com.uwu.tas.service.ActivityService;
+import com.uwu.tas.service.AccommodationTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,17 +12,17 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/admin/activity")
+@RequestMapping(value = "/admin/accommodation-type")
 @CrossOrigin
-public class AdminActivityController {
+public class AdminAccommodationTypeController {
 
-    private final ActivityService activityService;
+    private final AccommodationTypeService accommodationTypeService;
 
     @PostMapping(value = "")
-    public ResponseEntity saveActivity(@RequestBody ActivityDto activityDto) {
+    public ResponseEntity createAccommodationType(@RequestBody AccommodationTypeDto accommodationTypeDto) {
         try {
-            activityService.saveActivity(activityDto);
-            return ResponseEntity.ok(new CommonResponse<>(true, "Activity saved successfully!"));
+            accommodationTypeService.createAccommodationType(accommodationTypeDto);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Accommodation Type saved successfully!"));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
@@ -34,10 +33,10 @@ public class AdminActivityController {
     }
 
     @PutMapping(value = "")
-    public ResponseEntity updateActivity(@RequestBody ActivityDto activityDto) {
+    public ResponseEntity updateAccommodationType(@RequestBody AccommodationTypeDto accommodationTypeDto) {
         try {
-            activityService.updateActivity(activityDto);
-            return ResponseEntity.ok(new CommonResponse<>(true, "Activity updated successfully!"));
+            accommodationTypeService.updateAccommodationType(accommodationTypeDto);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Accommodation Type updated successfully!"));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
@@ -48,10 +47,10 @@ public class AdminActivityController {
     }
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity changeActivityStatus(@PathVariable(value = "id") long id, @RequestParam(value = "status") VisibilityStatus status) {
+    public ResponseEntity changeAccommodationTypeStatus(@PathVariable(value = "id") long id) {
         try {
-            activityService.changeActivityStatus(id, status);
-            return ResponseEntity.ok(new CommonResponse<>(true, "Activity status changed successfully!"));
+            accommodationTypeService.changeAccommodationTypeStatus(id);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Accommodation Type status changed successfully!"));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
@@ -62,10 +61,10 @@ public class AdminActivityController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity deleteActivity(@PathVariable(value = "id") long id) {
+    public ResponseEntity deleteAccommodationType(@PathVariable(value = "id") long id) {
         try {
-            activityService.deleteActivity(id);
-            return ResponseEntity.ok(new CommonResponse<>(true, "Activity deleted successfully!"));
+            accommodationTypeService.deleteAccommodationType(id);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Accommodation Type deleted successfully!"));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
@@ -76,10 +75,10 @@ public class AdminActivityController {
     }
 
     @GetMapping(value = "")
-    public ResponseEntity getAllActivities() {
+    public ResponseEntity getAllAccommodationTypes() {
         try {
-            List<ActivityDto> allActivities = activityService.getAllActivities();
-            return ResponseEntity.ok(new CommonResponse<>(true, allActivities));
+            List<AccommodationTypeDto> allAccommodationTypes = accommodationTypeService.getAllAccommodationTypes();
+            return ResponseEntity.ok(new CommonResponse<>(true, allAccommodationTypes));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
