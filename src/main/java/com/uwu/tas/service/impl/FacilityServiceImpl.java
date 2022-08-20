@@ -41,6 +41,11 @@ public class FacilityServiceImpl implements FacilityService {
         Facility facility = facilityRepository.findById(id).orElseThrow(() -> new CustomServiceException(404, "Facility not found"));
         VisibilityStatus status = VisibilityStatus.VISIBLE;
         if (facility.getStatus().equals(VisibilityStatus.VISIBLE)) status = VisibilityStatus.NOT_VISIBLE;
+        if (status.equals(VisibilityStatus.NOT_VISIBLE)) {
+            if (facility.getRoomFacilityDetails().size() > 0) {
+                throw new CustomServiceException("Facility status cannot be changed. This facility is used under several accommodation rooms");
+            }
+        }
         facility.setStatus(status);
         facilityRepository.save(facility);
     }
@@ -58,7 +63,6 @@ public class FacilityServiceImpl implements FacilityService {
         if (!facilityDto.getImage().startsWith("http")) {
             facility.setImage(base64Handler.getByteArrayFromBase64(facilityDto.getImage()));
         }
-        facility.setStatus(VisibilityStatus.VISIBLE);
         facilityRepository.save(facility);
     }
 

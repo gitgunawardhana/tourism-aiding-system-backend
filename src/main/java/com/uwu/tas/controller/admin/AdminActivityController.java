@@ -2,7 +2,6 @@ package com.uwu.tas.controller.admin;
 
 import com.uwu.tas.dto.CommonResponse;
 import com.uwu.tas.dto.configuration.ActivityDto;
-import com.uwu.tas.enums.VisibilityStatus;
 import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.service.ActivityService;
 import lombok.RequiredArgsConstructor;
@@ -48,9 +47,9 @@ public class AdminActivityController {
     }
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity changeActivityStatus(@PathVariable(value = "id") long id, @RequestParam(value = "status") VisibilityStatus status) {
+    public ResponseEntity changeActivityStatus(@PathVariable(value = "id") long id) {
         try {
-            activityService.changeActivityStatus(id, status);
+            activityService.changeActivityStatus(id);
             return ResponseEntity.ok(new CommonResponse<>(true, "Activity status changed successfully!"));
         } catch (CustomServiceException e) {
             e.printStackTrace();

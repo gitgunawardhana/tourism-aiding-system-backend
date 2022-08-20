@@ -41,6 +41,11 @@ public class AccommodationTypeServiceImpl implements AccommodationTypeService {
         AccommodationType accommodationType = accommodationTypeRepository.findById(id).orElseThrow(() -> new CustomServiceException(404, "Accommodation type not found"));
         VisibilityStatus status = VisibilityStatus.VISIBLE;
         if (accommodationType.getStatus().equals(VisibilityStatus.VISIBLE)) status = VisibilityStatus.NOT_VISIBLE;
+        if (status.equals(VisibilityStatus.NOT_VISIBLE)){
+            if (accommodationType.getAccommodations().size() > 0) {
+                throw new CustomServiceException("Accommodation type status cannot be changed. There are accommodation registrations under this type");
+            }
+        }
         accommodationType.setStatus(status);
         accommodationTypeRepository.save(accommodationType);
     }
@@ -58,7 +63,6 @@ public class AccommodationTypeServiceImpl implements AccommodationTypeService {
         if (!accommodationTypeDto.getImage().startsWith("http")) {
             accommodationType.setImage(base64Handler.getByteArrayFromBase64(accommodationTypeDto.getImage()));
         }
-        accommodationType.setStatus(VisibilityStatus.VISIBLE);
         accommodationTypeRepository.save(accommodationType);
     }
 

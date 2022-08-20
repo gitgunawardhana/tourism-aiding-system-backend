@@ -78,6 +78,7 @@ public class AdminFacilityController {
     public ResponseEntity getAllFacilities() {
         try {
             List<FacilityDto> allFacilities = facilityService.getAllFacilities();
+            System.out.println(allFacilities);
             return ResponseEntity.ok(new CommonResponse<>(true, allFacilities));
         } catch (CustomServiceException e) {
             e.printStackTrace();

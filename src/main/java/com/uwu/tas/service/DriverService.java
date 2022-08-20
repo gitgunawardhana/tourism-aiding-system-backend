@@ -1,7 +1,7 @@
 package com.uwu.tas.service;
 
 public interface DriverService {
-    double setDriverFarePerNight(double price);
+    void setDriverFarePerNight(double price);
 
     double getDriverFarePerNight();
 }

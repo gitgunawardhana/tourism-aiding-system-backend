@@ -12,4 +12,10 @@ public interface ProvinceService {
     List<ProvinceDto> getAllProvince();
 
     List<String> getAllProvinceNames();
+
+    void changeProvinceStatus(long id);
+
+    void updateProvince(ProvinceDto provinceDto);
+
+    void deleteProvince(long id);
 }

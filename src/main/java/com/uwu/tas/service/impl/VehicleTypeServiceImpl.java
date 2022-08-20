@@ -37,6 +37,11 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
         VehicleType vehicleType = vehicleTypeRepository.findById(id).orElseThrow(() -> new CustomServiceException(404, "Vehicle type not found"));
         VisibilityStatus status = VisibilityStatus.VISIBLE;
         if (vehicleType.getStatus().equals(VisibilityStatus.VISIBLE)) status = VisibilityStatus.NOT_VISIBLE;
+        if (status.equals(VisibilityStatus.NOT_VISIBLE)) {
+            if (vehicleType.getVehicles().size() > 0) {
+                throw new CustomServiceException("Vehicle type status cannot be changed. There are vehicle registrations under this type");
+            }
+        }
         vehicleType.setStatus(status);
         vehicleTypeRepository.save(vehicleType);
     }
@@ -52,7 +57,6 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
         }
         vehicleType.setName(vehicleTypeDto.getName());
         vehicleType.setRentalPricePerKm(vehicleTypeDto.getRentalPricePerKm());
-        vehicleType.setStatus(VisibilityStatus.VISIBLE);
         vehicleTypeRepository.save(vehicleType);
     }
 

@@ -44,13 +44,19 @@ public class ActivityServiceImpl implements ActivityService {
         if (!activityDto.getImage().startsWith("http")) {
             activity.setImage(base64Handler.getByteArrayFromBase64(activityDto.getImage()));
         }
-        activity.setVisibilityStatus(activityDto.getStatus());
         activityRepository.save(activity);
     }
 
     @Override
-    public void changeActivityStatus(long id, VisibilityStatus status) {
+    public void changeActivityStatus(long id) {
         Activity activity = activityRepository.findById(id).orElseThrow(() -> new CustomServiceException(404, "Activity not found"));
+        VisibilityStatus status = VisibilityStatus.VISIBLE;
+        if (activity.getVisibilityStatus().equals(VisibilityStatus.VISIBLE)) status = VisibilityStatus.NOT_VISIBLE;
+        if (status.equals(VisibilityStatus.NOT_VISIBLE)) {
+            if (activity.getActivityLocationDetails().size() > 0) {
+                throw new CustomServiceException("Activity status cannot be changed. This activity is used under several locations");
+            }
+        }
         activity.setVisibilityStatus(status);
         activityRepository.save(activity);
     }

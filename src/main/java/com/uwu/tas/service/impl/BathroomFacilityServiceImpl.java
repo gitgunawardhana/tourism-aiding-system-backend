@@ -41,6 +41,11 @@ public class BathroomFacilityServiceImpl implements BathroomFacilityService {
         BathroomFacility facility = bathroomFacilityRepository.findById(id).orElseThrow(() -> new CustomServiceException(404, "Bathroom facility not found"));
         VisibilityStatus status = VisibilityStatus.VISIBLE;
         if (facility.getStatus().equals(VisibilityStatus.VISIBLE)) status = VisibilityStatus.NOT_VISIBLE;
+        if (status.equals(VisibilityStatus.NOT_VISIBLE)) {
+            if (facility.getRoomBathroomFacilityDetails().size() > 0) {
+                throw new CustomServiceException("Bathroom facility status cannot be changed. This facility is used under several accommodation rooms");
+            }
+        }
         facility.setStatus(status);
         bathroomFacilityRepository.save(facility);
     }
@@ -58,7 +63,6 @@ public class BathroomFacilityServiceImpl implements BathroomFacilityService {
         if (!facilityDto.getImage().startsWith("http")) {
             facility.setImage(base64Handler.getByteArrayFromBase64(facilityDto.getImage()));
         }
-        facility.setStatus(VisibilityStatus.VISIBLE);
         bathroomFacilityRepository.save(facility);
     }
 

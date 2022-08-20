@@ -22,21 +22,84 @@ public class AdminProvinceController {
     public ResponseEntity saveProvince(@RequestBody ProvinceDto provinceDto) {
         try {
             provinceService.saveProvince(provinceDto);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Province saved successfully!"));
         } catch (CustomServiceException e) {
+            e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
-        return ResponseEntity.ok(new CommonResponse<>(true, "Province saved successfully!"));
+    }
+
+
+    @PutMapping(value = "")
+    public ResponseEntity updateProvince(@RequestBody ProvinceDto provinceDto) {
+        try {
+            provinceService.updateProvince(provinceDto);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Province updated successfully!"));
+        } catch (CustomServiceException e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
+        }
+    }
+
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity changeProvinceStatus(@PathVariable(value = "id") long id) {
+        try {
+            provinceService.changeProvinceStatus(id);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Province status changed successfully!"));
+        } catch (CustomServiceException e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
+        }
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity deleteProvince(@PathVariable(value = "id") long id) {
+        try {
+            provinceService.deleteProvince(id);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Province deleted successfully!"));
+        } catch (CustomServiceException e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
+        }
     }
 
     @GetMapping(value = "")
     public ResponseEntity getAllProvince() {
-        List<ProvinceDto> allProvince = provinceService.getAllProvince();
-        return ResponseEntity.ok(new CommonResponse<List<ProvinceDto>>(true, allProvince));
+        try {
+            List<ProvinceDto> allProvince = provinceService.getAllProvince();
+            return ResponseEntity.ok(new CommonResponse<List<ProvinceDto>>(true, allProvince));
+        } catch (CustomServiceException e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
+        }
     }
 
     @GetMapping(value = "/names")
     public ResponseEntity getAllProvinceNames() {
-        List<ProvinceDto> allProvince = provinceService.getAllProvince();
-        return ResponseEntity.ok(new CommonResponse<List<ProvinceDto>>(true, allProvince));
+        try {
+            List<ProvinceDto> allProvince = provinceService.getAllProvince();
+            return ResponseEntity.ok(new CommonResponse<List<ProvinceDto>>(true, allProvince));
+        } catch (CustomServiceException e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
+        }
     }
 }
