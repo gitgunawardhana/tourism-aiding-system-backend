@@ -23,4 +23,7 @@ public class LocationAttractionDto {
     private VisibilityStatus visibilityStatus;
     private long locationId;
     private List<String> locationAttractionPictures;
+
+
+
 }
