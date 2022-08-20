@@ -23,13 +23,12 @@ public class AdminLocationController {
     @PostMapping(value = "")
     public ResponseEntity createLocation(@RequestBody LocationDto locationDto) {
         try {
-            System.out.println(locationDto);
             locationService.createLocation(locationDto);
             return ResponseEntity.ok(new CommonResponse<>(true, "Location created successfully!"));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
-        }catch (Exception ee) {
+        } catch (Exception ee) {
             ee.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
@@ -65,8 +64,18 @@ public class AdminLocationController {
         }
     }
 
+    @GetMapping(value = "/name/{id}")
+    public ResponseEntity getLocationNameById(@PathVariable(value = "id") long id) {
+        try {
+            String locationName = locationService.getLocationNameById(id);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Location name retrieved successfully", locationName));
+        } catch (CustomServiceException e) {
+            return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        }
+    }
+
     @GetMapping(value = "")
-    public ResponseEntity getAllLocations(@RequestParam(value = "text", required = false) String text) {
+    public ResponseEntity getAllLocations(@RequestParam(value = "text") String text) {
         try {
             List<LocationDto> locations = locationService.getAllLocations(text);
             return ResponseEntity.ok(new CommonResponse<>(true, locations));
@@ -96,9 +105,9 @@ public class AdminLocationController {
     }
 
     @PatchMapping(value = "/attraction/{id}")
-    public ResponseEntity changeLocationAttractionStatus(@PathVariable(value = "id") long id, @RequestParam(value = "status") VisibilityStatus status) {
+    public ResponseEntity changeLocationAttractionStatus(@PathVariable(value = "id") long id) {
         try {
-            locationService.changeLocationAttractionStatus(id, status);
+            locationService.changeLocationAttractionStatus(id);
             return ResponseEntity.ok(new CommonResponse<>(true, "Location attraction status changed successfully!"));
         } catch (CustomServiceException e) {
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
@@ -116,9 +125,9 @@ public class AdminLocationController {
     }
 
     @GetMapping(value = "/attraction")
-    public ResponseEntity getAllLocationAttractions(@RequestParam(value = "text") String text) {
+    public ResponseEntity getAllLocationAttractions(@RequestParam(value = "locationId") long locationId, @RequestParam(value = "text") String text) {
         try {
-            List<LocationAttractionDto> attractions = locationService.getAllLocationAttractions(text);
+            List<LocationAttractionDto> attractions = locationService.getLocationAttractionsByLocation(locationId, text);
             return ResponseEntity.ok(new CommonResponse<>(true, attractions));
         } catch (CustomServiceException e) {
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));

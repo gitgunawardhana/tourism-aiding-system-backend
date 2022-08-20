@@ -2,7 +2,6 @@ package com.uwu.tas.service;
 
 import com.uwu.tas.dto.location.LocationAttractionDto;
 import com.uwu.tas.dto.location.LocationDto;
-import com.uwu.tas.enums.VisibilityStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,14 +20,16 @@ public interface LocationService {
 
     LocationDto getLocationById(long id);
 
+    String getLocationNameById(long id);
+
     @Transactional
     void createLocationAttraction(LocationAttractionDto locationAttractionDto);
 
     void updateLocationAttraction(LocationAttractionDto locationAttractionDto);
 
-    void changeLocationAttractionStatus(long id, VisibilityStatus status);
+    void changeLocationAttractionStatus(long id);
 
-    List<LocationAttractionDto> getAllLocationAttractions(String text);
+    List<LocationAttractionDto> getLocationAttractionsByLocation(long locationId, String text);
 
     LocationAttractionDto getLocationAttractionById(long id);
 }
