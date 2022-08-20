@@ -26,6 +26,11 @@ public class ImageController {
         return fileService.getLocationImage(id);
     }
 
+    @GetMapping(value = "/image/location/location-id/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public Resource getFirstLocationImageByLocationId(@PathVariable(value = "id") long id) {
+        return fileService.getFirstLocationImageByLocationId(id);
+    }
+
     @GetMapping(value = "/image/location/attraction/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public Resource getLocationAttractionImage(@PathVariable(value = "id") long id) {
         return fileService.getLocationAttractionImage(id);

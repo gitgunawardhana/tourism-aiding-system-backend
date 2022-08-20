@@ -9,6 +9,8 @@ public interface FileService {
 
     Resource getLocationImage(long id);
 
+    Resource getFirstLocationImageByLocationId(long locationId);
+
     Resource getLocationAttractionImage(long id);
 
     Resource getAccommodationTypeImage(long id);
