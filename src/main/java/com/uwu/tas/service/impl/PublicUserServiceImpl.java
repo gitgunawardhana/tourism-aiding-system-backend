@@ -1,8 +1,11 @@
 package com.uwu.tas.service.impl;
 
+import com.uwu.tas.dto.publicUser.PublicUserCodeVerifyDto;
 import com.uwu.tas.dto.publicUser.PublicUserRegistrationDto;
 import com.uwu.tas.entity.PublicUser;
 import com.uwu.tas.entity.PublicUserVerificationCode;
+import com.uwu.tas.entity.Vendor;
+import com.uwu.tas.enums.UserStatus;
 import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.repository.PublicUserRepository;
 import com.uwu.tas.repository.PublicUserVerificationCodeRepository;
@@ -12,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +41,8 @@ public class PublicUserServiceImpl implements PublicUserService {
             publicUser.setFirstName(registrationDto.getFirstName());
             publicUser.setLastName(registrationDto.getLastName());
             publicUser.setPassword(registrationDto.getPassword());
+            publicUser.setMobile(registrationDto.getMobile());
+            publicUser.setStatus(UserStatus.valueOf("PENDING"));
 
             //send verification email
             sendVerificationCode(registrationDto.getEmail());
@@ -67,7 +73,7 @@ public class PublicUserServiceImpl implements PublicUserService {
         List<String> emails = new ArrayList<>();
         emails.add(email);
 
-        emailSender.sendEmail(emails,"Verification Code","This is your verification code for ROADSIGN "+code);
+        emailSender.sendEmail(emails, "Verification Code", "This is your verification code for ROADSIGN " + code);
 
     }
 
@@ -78,4 +84,41 @@ public class PublicUserServiceImpl implements PublicUserService {
         int code = r.nextInt(high - low) + low;
         return String.valueOf(code);
     }
+
+    @Override
+    public void verifyUser(PublicUserCodeVerifyDto publicUserCodeVerifyDto) {
+        Optional<PublicUser> optionalPublicUser = publicUserRepository.findByEmail(publicUserCodeVerifyDto.getEmail());
+        if (optionalPublicUser.isPresent()) {
+            Optional<PublicUserVerificationCode> optionalCode = publicUserVerificationCodeRepository.findById(publicUserCodeVerifyDto.getEmail());
+            if (!optionalCode.isPresent()) {
+                System.out.println("ERROR: VendorService.checkVerificationCode: Verification code not found");
+                throw new CustomServiceException(404, "No verification code for given vendor");
+
+            }
+            PublicUserVerificationCode verificationCode = optionalCode.get();
+
+            long hours = ChronoUnit.HOURS.between(verificationCode.getDateTime(), LocalDateTime.now());
+            if (hours >= 24) {
+                System.out.println("ERROR: VendorService.checkVerificationCode: Verification code is expired");
+                throw new CustomServiceException(403, "Verification code is expired, please re-send");
+            }
+
+            if (verificationCode.getCode() != null && verificationCode.getCode().equals(publicUserCodeVerifyDto.getCode())) {
+                System.out.println("INFO: VendorService.checkVerificationCode: Code verified successfully");
+                PublicUser publicUser = optionalPublicUser.get();
+                publicUser.setEmailVerified(true);
+                publicUser.setStatus(UserStatus.valueOf("ACTIVE"));
+                publicUserRepository.save(publicUser);
+                return;
+            }
+            System.out.println("ERROR: VendorService.checkVerificationCode: Incorrect verification code");
+            throw new CustomServiceException(401, "Incorrect verification code");
+
+        } else {
+            System.out.println("ERROR: VendorService.checkVerificationCode: Vendor not found");
+            throw new CustomServiceException(404, "Vendor not found");
+        }
+    }
+
+
 }
