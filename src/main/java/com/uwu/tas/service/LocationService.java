@@ -17,6 +17,7 @@ public interface LocationService {
     void changeLocationStatus(long id);
 
     List<LocationDto> getAllLocations(String text);
+    List<LocationDto> getAllLocations();
 
     LocationDto getLocationById(long id);
 
