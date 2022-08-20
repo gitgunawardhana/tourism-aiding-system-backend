@@ -1,6 +1,7 @@
 package com.uwu.tas.entity;
 
 
+import com.uwu.tas.enums.VisibilityStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,12 @@ public class Facility {
     private long id;
 
     private String name;
-    private String imageUrl;
+
+    @Lob
+    private byte[] image;
+
+    @Enumerated(EnumType.STRING)
+    private VisibilityStatus status;
 
     @OneToMany(mappedBy = "facility")
     private List<RoomFacilityDetail> roomFacilityDetails;

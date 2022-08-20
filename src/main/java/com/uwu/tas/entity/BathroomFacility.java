@@ -1,11 +1,11 @@
 package com.uwu.tas.entity;
 
 
+import com.uwu.tas.enums.VisibilityStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.bytebuddy.implementation.bytecode.ShiftRight;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,7 +22,12 @@ public class BathroomFacility {
     private long id;
 
     private String name;
-    private String imageUrl;
+
+    @Lob
+    private byte[] image;
+
+    @Enumerated(EnumType.STRING)
+    private VisibilityStatus status;
 
     @OneToMany(mappedBy = "bathroomFacility")
     private List<RoomBathroomFacilityDetail> roomBathroomFacilityDetails;

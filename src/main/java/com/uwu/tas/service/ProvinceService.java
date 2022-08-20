@@ -1,6 +1,6 @@
 package com.uwu.tas.service;
 
-import com.uwu.tas.dto.province.ProvinceDto;
+import com.uwu.tas.dto.configuration.ProvinceDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,4 +12,10 @@ public interface ProvinceService {
     List<ProvinceDto> getAllProvince();
 
     List<String> getAllProvinceNames();
+
+    void changeProvinceStatus(long id);
+
+    void updateProvince(ProvinceDto provinceDto);
+
+    void deleteProvince(long id);
 }

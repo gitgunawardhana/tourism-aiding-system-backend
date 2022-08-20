@@ -1,6 +1,6 @@
 package com.uwu.tas.service.impl;
 
-import com.uwu.tas.dto.activity.ActivityDto;
+import com.uwu.tas.dto.configuration.ActivityDto;
 import com.uwu.tas.dto.location.LocationAttractionDto;
 import com.uwu.tas.dto.location.LocationDto;
 import com.uwu.tas.entity.*;
