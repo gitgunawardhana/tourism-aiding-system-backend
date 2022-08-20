@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PublicUserCodeVerifyDto {
-    private double id;
+    private String email;
     private String code;
 
 }

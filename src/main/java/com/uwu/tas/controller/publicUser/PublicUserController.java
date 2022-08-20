@@ -33,18 +33,25 @@ public class PublicUserController {
         }
     }
 
+    @PostMapping(value = "/verify")
+    public ResponseEntity verifyUser(@RequestBody PublicUserCodeVerifyDto publicUserCodeVerifyDto) {
+        try {
+            publicUserService.verifyUser(publicUserCodeVerifyDto);
+            return ResponseEntity.ok(new CommonResponse<VendorRegisterDto>(true, "Verification successful"));
+        } catch (CustomServiceException ce) {
+            return ResponseEntity.ok(new CommonResponse<>(false, ce.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
+        }
+    }
 
 
 
-//    @PatchMapping(value = "/verify")
-//    public ResponseEntity verifyUser(@RequestBody PublicUserCodeVerifyDto publicUserCodeVerifyDto) {
-//        try {
-//            publicUserService.verifyVendor(vendorCodeVerifyDto);
-//            return ResponseEntity.ok(new CommonResponse<VendorRegisterDto>(true, "Verification ssuccessful"));
-//        } catch (CustomServiceException ce) {
-//            return ResponseEntity.ok(new CommonResponse<>(false, ce.getMessage()));
-//        } catch (Exception e) {
-//            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
-//        }
-//    }
+
+
+
+
+
+
+
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -21,18 +22,23 @@ public class PublicUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private String username;
     private String password;
     private String firstName;
     private String lastName;
-    private String nicOrPassport;
 
     @Column(unique = true)
     private String email;
 
     private boolean emailVerified;
+
     private String mobile;
+    private LocalDate birthday;
+    private String nationality;
     private String address;
     private String country;
+    private String town;
+    private String zipcode;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
