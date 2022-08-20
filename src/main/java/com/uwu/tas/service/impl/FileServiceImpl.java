@@ -52,6 +52,16 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public Resource getSecondLocationImageByLocationId(long locationId) {
+        Optional<LocationPicture> optional = locationPictureRepository.getSecondLocationImageByLocationId(locationId);
+        if(optional.isPresent()){
+            byte[] image = optional.get().getImage();
+            return new ByteArrayResource(image);
+        }
+        return null;
+    }
+
+    @Override
     public Resource getLocationAttractionImage(long id) {
         Optional<LocationAttractionPicture> optional = locationAttractionPictureRepository.findById(id);
         if (optional.isPresent()) {

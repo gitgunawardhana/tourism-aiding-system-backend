@@ -11,4 +11,7 @@ import java.util.Optional;
 public interface LocationPictureRepository extends JpaRepository<LocationPicture, Long> {
     @Query(value = "SELECT * FROM location_picture WHERE location_id = ?1 LIMIT 1", nativeQuery = true)
     Optional<LocationPicture> getFirstLocationImageByLocationId(long locationId);
+
+    @Query(value = "SELECT * FROM location_picture WHERE location_id = ?1 ORDER BY id DESC LIMIT 1", nativeQuery = true)
+    Optional<LocationPicture> getSecondLocationImageByLocationId(long locationId);
 }
