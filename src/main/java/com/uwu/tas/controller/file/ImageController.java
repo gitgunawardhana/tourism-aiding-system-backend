@@ -35,4 +35,19 @@ public class ImageController {
     public Resource getLocationAttractionImage(@PathVariable(value = "id") long id) {
         return fileService.getLocationAttractionImage(id);
     }
+
+    @GetMapping(value = "/image/accommodation-type/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public Resource getAccommodationTypeImage(@PathVariable(value = "id") long id) {
+        return fileService.getAccommodationTypeImage(id);
+    }
+
+    @GetMapping(value = "/image/facility/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public Resource getFacilityImage(@PathVariable(value = "id") long id) {
+        return fileService.getFacilityImage(id);
+    }
+
+    @GetMapping(value = "/image/bathroom-facility/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public Resource getBathroomFacilityImage(@PathVariable(value = "id") long id) {
+        return fileService.getBathroomFacilityImage(id);
+    }
 }

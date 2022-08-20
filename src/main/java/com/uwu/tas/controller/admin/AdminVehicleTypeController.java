@@ -1,9 +1,9 @@
 package com.uwu.tas.controller.admin;
 
 import com.uwu.tas.dto.CommonResponse;
-import com.uwu.tas.dto.configuration.ActivityDto;
+import com.uwu.tas.dto.configuration.VehicleTypeDto;
 import com.uwu.tas.exception.CustomServiceException;
-import com.uwu.tas.service.ActivityService;
+import com.uwu.tas.service.VehicleTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,17 +12,17 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/admin/activity")
+@RequestMapping(value = "/admin/vehicle-type")
 @CrossOrigin
-public class AdminActivityController {
+public class AdminVehicleTypeController {
 
-    private final ActivityService activityService;
+    private final VehicleTypeService vehicleTypeService;
 
     @PostMapping(value = "")
-    public ResponseEntity saveActivity(@RequestBody ActivityDto activityDto) {
+    public ResponseEntity createVehicleType(@RequestBody VehicleTypeDto vehicleTypeDto) {
         try {
-            activityService.saveActivity(activityDto);
-            return ResponseEntity.ok(new CommonResponse<>(true, "Activity saved successfully!"));
+            vehicleTypeService.createVehicleType(vehicleTypeDto);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Vehicle Type saved successfully!"));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
@@ -33,10 +33,10 @@ public class AdminActivityController {
     }
 
     @PutMapping(value = "")
-    public ResponseEntity updateActivity(@RequestBody ActivityDto activityDto) {
+    public ResponseEntity updateVehicleType(@RequestBody VehicleTypeDto vehicleTypeDto) {
         try {
-            activityService.updateActivity(activityDto);
-            return ResponseEntity.ok(new CommonResponse<>(true, "Activity updated successfully!"));
+            vehicleTypeService.updateVehicleType(vehicleTypeDto);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Vehicle Type updated successfully!"));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
@@ -47,10 +47,10 @@ public class AdminActivityController {
     }
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity changeActivityStatus(@PathVariable(value = "id") long id) {
+    public ResponseEntity changeVehicleTypeStatus(@PathVariable(value = "id") long id) {
         try {
-            activityService.changeActivityStatus(id);
-            return ResponseEntity.ok(new CommonResponse<>(true, "Activity status changed successfully!"));
+            vehicleTypeService.changeVehicleTypeStatus(id);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Vehicle Type status changed successfully!"));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
@@ -61,10 +61,10 @@ public class AdminActivityController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity deleteActivity(@PathVariable(value = "id") long id) {
+    public ResponseEntity deleteVehicleType(@PathVariable(value = "id") long id) {
         try {
-            activityService.deleteActivity(id);
-            return ResponseEntity.ok(new CommonResponse<>(true, "Activity deleted successfully!"));
+            vehicleTypeService.deleteVehicleType(id);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Vehicle Type deleted successfully!"));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
@@ -75,10 +75,10 @@ public class AdminActivityController {
     }
 
     @GetMapping(value = "")
-    public ResponseEntity getAllActivities() {
+    public ResponseEntity getAllVehicleTypes() {
         try {
-            List<ActivityDto> allActivities = activityService.getAllActivities();
-            return ResponseEntity.ok(new CommonResponse<>(true, allActivities));
+            List<VehicleTypeDto> allVehicleTypes = vehicleTypeService.getAllVehicleTypes();
+            return ResponseEntity.ok(new CommonResponse<>(true, allVehicleTypes));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));

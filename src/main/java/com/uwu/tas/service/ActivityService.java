@@ -1,7 +1,6 @@
 package com.uwu.tas.service;
 
-import com.uwu.tas.dto.activity.ActivityDto;
-import com.uwu.tas.enums.VisibilityStatus;
+import com.uwu.tas.dto.configuration.ActivityDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +11,9 @@ public interface ActivityService {
 
     void updateActivity(ActivityDto activityDto);
 
-    void changeActivityStatus(long id, VisibilityStatus status);
+    void changeActivityStatus(long id);
 
     List<ActivityDto> getAllActivities();
+
+    void deleteActivity(long id);
 }

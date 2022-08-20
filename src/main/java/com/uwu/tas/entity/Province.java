@@ -1,5 +1,6 @@
 package com.uwu.tas.entity;
 
+import com.uwu.tas.enums.VisibilityStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,9 @@ public class Province {
     private long id;
 
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private VisibilityStatus status;
 
     @OneToMany(mappedBy = "province")
     private List<Location> locations;

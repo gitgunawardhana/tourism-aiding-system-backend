@@ -1,6 +1,6 @@
 package com.uwu.tas.service.impl;
 
-import com.uwu.tas.dto.activity.ActivityDto;
+import com.uwu.tas.dto.configuration.ActivityDto;
 import com.uwu.tas.dto.location.LocationAttractionDto;
 import com.uwu.tas.dto.location.LocationDto;
 import com.uwu.tas.entity.*;
@@ -17,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.uwu.tas.constant.TASConstants.Url.*;
@@ -79,6 +80,47 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public void updateLocation(LocationDto locationDto) {
+
+        Location location = locationRepository.findById(locationDto.getId()).orElseThrow(() -> new CustomServiceException(404, "Location not found"));
+
+        Optional<Location> optionalLocation = locationRepository.findByName(locationDto.getName());
+        if (optionalLocation.isPresent()) {
+            if (!optionalLocation.get().getName().equals(location.getName()))
+                throw new CustomServiceException(409, "There is an existing location for given name!");
+        }
+
+        location.setName(locationDto.getName());
+        location.setLongitude(locationDto.getLongitude());
+        location.setLatitude(locationDto.getLatitude());
+        location.setDescription(locationDto.getDescription());
+        location.setMinimumSpendingDays(locationDto.getMinimumSpendingDays());
+
+        Province province = provinceRepository.findById(locationDto.getProvinceId()).orElseThrow(() -> new CustomServiceException(404, "Province not found"));
+        location.setProvince(province);
+
+        List<LocationPicture> locationPictures = new ArrayList<>();
+        for (String picture : locationDto.getLocationPictures()) {
+            if (picture != null) {
+                LocationPicture locationPicture = new LocationPicture();
+                locationPicture.setImage(base64Handler.getByteArrayFromBase64(picture));
+                locationPicture.setLocation(location);
+                locationPictures.add(locationPicture);
+            }
+        }
+
+        List<ActivityLocationDetail> activityLocationDetails = new ArrayList<>();
+        for (ActivityDto activityDto : locationDto.getLocationActivities()) {
+            ActivityLocationDetail activityLocationDetail = new ActivityLocationDetail();
+            Activity activity = activityRepository.findById(activityDto.getId()).orElseThrow(() -> new CustomServiceException(404, "Activity not found"));
+            activityLocationDetail.setActivity(activity);
+            activityLocationDetail.setLocation(location);
+            activityLocationDetails.add(activityLocationDetail);
+        }
+
+        locationRepository.save(location);
+        locationPictureRepository.saveAll(locationPictures);
+        activityLocationDetailRepository.saveAll(activityLocationDetails);
+
     }
 
     @Override
@@ -92,7 +134,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public List<LocationDto> getAllLocations(String text) {
-        List<Location> locations = locationRepository.findAll();
+        List<Location> locations = locationRepository.findByNameLike(text);
         return locations.stream().map(location -> {
             LocationDto locationDto = new LocationDto();
             locationDto.setId(location.getId());
@@ -158,6 +200,8 @@ public class LocationServiceImpl implements LocationService {
                     locationAttraction.getEmail(),
                     locationAttraction.getWebsite(),
                     locationAttraction.getVisibilityStatus(),
+                    DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                            .format(locationAttraction.getUpdatedDateTime()),
                     location.getId(),
                     locationAttractionPictureRepository.findByLocationAttraction(locationAttraction).stream()
                             .map(locationAttractionPicture -> LOCATION_ATTRACTION_IMAGE_BASE_URL + "/" + locationAttractionPicture.getId())
@@ -168,6 +212,12 @@ public class LocationServiceImpl implements LocationService {
         locationDto.setLocationAttractions(locationAttractionDtos);
 
         return locationDto;
+    }
+
+    @Override
+    public String getLocationNameById(long id) {
+        Location location = locationRepository.findById(id).orElseThrow(() -> new CustomServiceException(404, "Location not found"));
+        return location.getName();
     }
 
     @Override
@@ -201,19 +251,48 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public void updateLocationAttraction(LocationAttractionDto locationAttractionDto) {
+
+        LocationAttraction locationAttraction = locationAttractionRepository.findById(locationAttractionDto.getId()).orElseThrow(() -> new CustomServiceException(404, "Location attraction not found"));
+
+        Optional<LocationAttraction> optionalLocationAttraction = locationAttractionRepository.findByName(locationAttractionDto.getName());
+        if (optionalLocationAttraction.isPresent()) {
+            if (!optionalLocationAttraction.get().getName().equals(locationAttraction.getName())) {
+                throw new CustomServiceException(409, "There is another existing location attraction for given name!");
+            }
+        }
+        locationAttraction.setName(locationAttractionDto.getName());
+        locationAttraction.setDescription(locationAttractionDto.getDescription());
+        locationAttraction.setTelephone(locationAttractionDto.getTelephone());
+        locationAttraction.setEmail(locationAttractionDto.getEmail());
+        locationAttraction.setWebsite(locationAttractionDto.getWebsite());
+
+        List<LocationAttractionPicture> locationAttractionPictures = new ArrayList<>();
+        for (String picture : locationAttractionDto.getLocationAttractionPictures()) {
+            LocationAttractionPicture locationAttractionPicture = new LocationAttractionPicture();
+            locationAttractionPicture.setImage(base64Handler.getByteArrayFromBase64(picture));
+            locationAttractionPicture.setLocationAttraction(locationAttraction);
+            locationAttractionPictures.add(locationAttractionPicture);
+        }
+
+        locationAttractionRepository.save(locationAttraction);
+        locationAttractionPictureRepository.saveAll(locationAttractionPictures);
     }
 
     @Override
-    public void changeLocationAttractionStatus(long id, VisibilityStatus status) {
+    public void changeLocationAttractionStatus(long id) {
         LocationAttraction locationAttraction = locationAttractionRepository.findById(id)
                 .orElseThrow(() -> new CustomServiceException(404, "Location attraction not found"));
+        VisibilityStatus status = VisibilityStatus.VISIBLE;
+        if (locationAttraction.getVisibilityStatus().equals(VisibilityStatus.VISIBLE))
+            status = VisibilityStatus.NOT_VISIBLE;
         locationAttraction.setVisibilityStatus(status);
         locationAttractionRepository.save(locationAttraction);
     }
 
     @Override
-    public List<LocationAttractionDto> getAllLocationAttractions(String text) {
-        List<LocationAttraction> attractions = locationAttractionRepository.findByNameLike(text);
+    public List<LocationAttractionDto> getLocationAttractionsByLocation(long locationId, String text) {
+        Location location = locationRepository.findById(locationId).orElseThrow(() -> new CustomServiceException(404, "Location not found"));
+        List<LocationAttraction> attractions = locationAttractionRepository.findByLocationAndNameLike(location, text);
         return attractions.stream().map(attraction -> new LocationAttractionDto(
                 attraction.getId(),
                 attraction.getName(),
@@ -222,6 +301,8 @@ public class LocationServiceImpl implements LocationService {
                 attraction.getEmail(),
                 attraction.getWebsite(),
                 attraction.getVisibilityStatus(),
+                DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                        .format(attraction.getUpdatedDateTime()),
                 attraction.getLocation().getId(),
                 locationAttractionPictureRepository.findByLocationAttraction(attraction).stream()
                         .map(locationAttractionPicture -> LOCATION_ATTRACTION_IMAGE_BASE_URL + "/" + locationAttractionPicture.getId())
@@ -240,6 +321,8 @@ public class LocationServiceImpl implements LocationService {
                 attraction.getEmail(),
                 attraction.getWebsite(),
                 attraction.getVisibilityStatus(),
+                DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                        .format(attraction.getUpdatedDateTime()),
                 attraction.getLocation().getId(),
                 locationAttractionPictureRepository.findByLocationAttraction(attraction).stream()
                         .map(locationAttractionPicture -> LOCATION_ATTRACTION_IMAGE_BASE_URL + "/" + locationAttractionPicture.getId())

@@ -5,8 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -31,6 +34,12 @@ public class LocationAttraction {
 
     @Enumerated(EnumType.STRING)
     private VisibilityStatus visibilityStatus;
+
+    @CreationTimestamp
+    private LocalDateTime createdDateTime;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedDateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn

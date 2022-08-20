@@ -1,9 +1,9 @@
 package com.uwu.tas.controller.admin;
 
 import com.uwu.tas.dto.CommonResponse;
-import com.uwu.tas.dto.configuration.ActivityDto;
+import com.uwu.tas.dto.configuration.BathroomFacilityDto;
 import com.uwu.tas.exception.CustomServiceException;
-import com.uwu.tas.service.ActivityService;
+import com.uwu.tas.service.BathroomFacilityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,19 +12,18 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/admin/activity")
+@RequestMapping(value = "/admin/bathroom-facility")
 @CrossOrigin
-public class AdminActivityController {
+public class AdminBathroomFacilityController {
 
-    private final ActivityService activityService;
+    private final BathroomFacilityService bathroomFacilityService;
 
     @PostMapping(value = "")
-    public ResponseEntity saveActivity(@RequestBody ActivityDto activityDto) {
+    public ResponseEntity createBathroomFacility(@RequestBody BathroomFacilityDto bathroomFacilityDto) {
         try {
-            activityService.saveActivity(activityDto);
-            return ResponseEntity.ok(new CommonResponse<>(true, "Activity saved successfully!"));
+            bathroomFacilityService.createBathroomFacility(bathroomFacilityDto);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Bathroom Facility saved successfully!"));
         } catch (CustomServiceException e) {
-            e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
         } catch (Exception ee) {
             ee.printStackTrace();
@@ -33,12 +32,11 @@ public class AdminActivityController {
     }
 
     @PutMapping(value = "")
-    public ResponseEntity updateActivity(@RequestBody ActivityDto activityDto) {
+    public ResponseEntity updateBathroomFacility(@RequestBody BathroomFacilityDto bathroomFacilityDto) {
         try {
-            activityService.updateActivity(activityDto);
-            return ResponseEntity.ok(new CommonResponse<>(true, "Activity updated successfully!"));
+            bathroomFacilityService.updateBathroomFacility(bathroomFacilityDto);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Bathroom Facility updated successfully!"));
         } catch (CustomServiceException e) {
-            e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
         } catch (Exception ee) {
             ee.printStackTrace();
@@ -47,12 +45,11 @@ public class AdminActivityController {
     }
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity changeActivityStatus(@PathVariable(value = "id") long id) {
+    public ResponseEntity changeBathroomFacilityStatus(@PathVariable(value = "id") long id) {
         try {
-            activityService.changeActivityStatus(id);
-            return ResponseEntity.ok(new CommonResponse<>(true, "Activity status changed successfully!"));
+            bathroomFacilityService.changeBathroomFacilityStatus(id);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Bathroom Facility status changed successfully!"));
         } catch (CustomServiceException e) {
-            e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
         } catch (Exception ee) {
             ee.printStackTrace();
@@ -61,12 +58,11 @@ public class AdminActivityController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity deleteActivity(@PathVariable(value = "id") long id) {
+    public ResponseEntity deleteBathroomFacility(@PathVariable(value = "id") long id) {
         try {
-            activityService.deleteActivity(id);
-            return ResponseEntity.ok(new CommonResponse<>(true, "Activity deleted successfully!"));
+            bathroomFacilityService.deleteBathroomFacility(id);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Bathroom Facility deleted successfully!"));
         } catch (CustomServiceException e) {
-            e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
         } catch (Exception ee) {
             ee.printStackTrace();
@@ -75,12 +71,11 @@ public class AdminActivityController {
     }
 
     @GetMapping(value = "")
-    public ResponseEntity getAllActivities() {
+    public ResponseEntity getAllBathroomFacilities() {
         try {
-            List<ActivityDto> allActivities = activityService.getAllActivities();
-            return ResponseEntity.ok(new CommonResponse<>(true, allActivities));
+            List<BathroomFacilityDto> allBathroomFacilities = bathroomFacilityService.getAllBathroomFacilities();
+            return ResponseEntity.ok(new CommonResponse<>(true, allBathroomFacilities));
         } catch (CustomServiceException e) {
-            e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
         } catch (Exception ee) {
             ee.printStackTrace();

@@ -12,4 +12,10 @@ public interface FileService {
     Resource getFirstLocationImageByLocationId(long locationId);
 
     Resource getLocationAttractionImage(long id);
+
+    Resource getAccommodationTypeImage(long id);
+
+    Resource getFacilityImage(long id);
+
+    Resource getBathroomFacilityImage(long id);
 }

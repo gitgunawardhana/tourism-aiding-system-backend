@@ -1,4 +1,4 @@
-package com.uwu.tas.dto.activity;
+package com.uwu.tas.dto.configuration;
 
 import com.uwu.tas.enums.VisibilityStatus;
 import lombok.AllArgsConstructor;
@@ -6,14 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class ActivityDto {
+@AllArgsConstructor
+@NoArgsConstructor
+public class VehicleTypeDto {
     private long id;
-    private String activityName;
-    private String image;
+    private String name;
+    private double rentalPricePerKm;
     private VisibilityStatus status;
-    private boolean checked;
 }

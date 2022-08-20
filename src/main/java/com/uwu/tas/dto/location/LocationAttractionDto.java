@@ -1,17 +1,16 @@
 package com.uwu.tas.dto.location;
 
 import com.uwu.tas.enums.VisibilityStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class LocationAttractionDto {
 
     private long id;
@@ -21,6 +20,7 @@ public class LocationAttractionDto {
     private String email;
     private String website;
     private VisibilityStatus visibilityStatus;
+    private String modifiedDateTime;
     private long locationId;
     private List<String> locationAttractionPictures;
 }
