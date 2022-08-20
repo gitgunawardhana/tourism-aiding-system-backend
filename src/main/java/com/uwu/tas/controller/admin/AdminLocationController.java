@@ -3,7 +3,6 @@ package com.uwu.tas.controller.admin;
 import com.uwu.tas.dto.CommonResponse;
 import com.uwu.tas.dto.location.LocationAttractionDto;
 import com.uwu.tas.dto.location.LocationDto;
-import com.uwu.tas.enums.VisibilityStatus;
 import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.service.LocationService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +29,9 @@ public class AdminLocationController {
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
         } catch (Exception ee) {
             ee.printStackTrace();
+            if (ee.getMessage().startsWith("Packet for query is too large")) {
+                return ResponseEntity.ok(new CommonResponse<>(false, "Given image sizes are too big"));
+            }
             return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
     }
@@ -40,7 +42,14 @@ public class AdminLocationController {
             locationService.updateLocation(locationDto);
             return ResponseEntity.ok(new CommonResponse<>(true, "Location updated successfully!"));
         } catch (CustomServiceException e) {
+            e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            if (ee.getMessage().startsWith("Packet for query is too large")) {
+                return ResponseEntity.ok(new CommonResponse<>(false, "Given image sizes are too big"));
+            }
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
     }
 
@@ -50,7 +59,11 @@ public class AdminLocationController {
             locationService.changeLocationStatus(id);
             return ResponseEntity.ok(new CommonResponse<>(true, "Location status changed successfully!"));
         } catch (CustomServiceException e) {
+            e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
     }
 
@@ -60,7 +73,11 @@ public class AdminLocationController {
             LocationDto location = locationService.getLocationById(id);
             return ResponseEntity.ok(new CommonResponse<>(true, location));
         } catch (CustomServiceException e) {
+            e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
     }
 
@@ -80,7 +97,11 @@ public class AdminLocationController {
             List<LocationDto> locations = locationService.getAllLocations(text);
             return ResponseEntity.ok(new CommonResponse<>(true, locations));
         } catch (CustomServiceException e) {
+            e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
     }
 
@@ -90,7 +111,14 @@ public class AdminLocationController {
             locationService.createLocationAttraction(locationAttractionDto);
             return ResponseEntity.ok(new CommonResponse<>(true, "Location attraction created successfully!"));
         } catch (CustomServiceException e) {
+            e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            if (ee.getMessage().startsWith("Packet for query is too large")) {
+                return ResponseEntity.ok(new CommonResponse<>(false, "Given image sizes are too big"));
+            }
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
     }
 
@@ -100,7 +128,14 @@ public class AdminLocationController {
             locationService.updateLocationAttraction(locationAttractionDto);
             return ResponseEntity.ok(new CommonResponse<>(true, "Location attraction updated successfully!"));
         } catch (CustomServiceException e) {
+            e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            if (ee.getMessage().startsWith("Packet for query is too large")) {
+                return ResponseEntity.ok(new CommonResponse<>(false, "Given image sizes are too big"));
+            }
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
     }
 
@@ -110,7 +145,11 @@ public class AdminLocationController {
             locationService.changeLocationAttractionStatus(id);
             return ResponseEntity.ok(new CommonResponse<>(true, "Location attraction status changed successfully!"));
         } catch (CustomServiceException e) {
+            e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
     }
 
@@ -120,7 +159,11 @@ public class AdminLocationController {
             LocationAttractionDto attraction = locationService.getLocationAttractionById(id);
             return ResponseEntity.ok(new CommonResponse<>(true, attraction));
         } catch (CustomServiceException e) {
+            e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
     }
 
@@ -130,7 +173,11 @@ public class AdminLocationController {
             List<LocationAttractionDto> attractions = locationService.getLocationAttractionsByLocation(locationId, text);
             return ResponseEntity.ok(new CommonResponse<>(true, attractions));
         } catch (CustomServiceException e) {
+            e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
     }
 }
