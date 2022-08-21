@@ -1,9 +1,11 @@
 package com.uwu.tas.controller.publicUser;
 import com.uwu.tas.dto.CommonResponse;
 import com.uwu.tas.dto.publicUser.PublicUserCodeVerifyDto;
+import com.uwu.tas.dto.publicUser.PublicUserDetailsDto;
 import com.uwu.tas.dto.publicUser.PublicUserRegistrationDto;
 import com.uwu.tas.dto.vendor.VendorCodeVerifyDto;
 import com.uwu.tas.dto.vendor.VendorRegisterDto;
+import com.uwu.tas.entity.PublicUser;
 import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.service.PublicUserService;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +47,30 @@ public class PublicUserController {
         }
     }
 
+    @GetMapping(value = "/details")
+    public ResponseEntity getUserDetails(@RequestParam (value = "email") String email){
+        try {
+            PublicUserDetailsDto result = publicUserService.getPublicUserDetails(email);
+            return ResponseEntity.ok(new CommonResponse<>(true, result));
+        } catch (CustomServiceException ce) {
+            return ResponseEntity.ok(new CommonResponse<>(false, ce.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
+        }
+    }
 
+    @PostMapping(value = "/update-details")
+    public ResponseEntity updateDetails(@RequestBody PublicUserDetailsDto publicUserDetailsDto){
+        try {
+            publicUserService.updateDetails(publicUserDetailsDto);
+            return ResponseEntity.ok(new CommonResponse<PublicUserDetailsDto>(true, "Update Successful "));
+        } catch (CustomServiceException ce) {
+            return ResponseEntity.ok(new CommonResponse<>(false, ce.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
+        }
+
+    }
 
 
 
