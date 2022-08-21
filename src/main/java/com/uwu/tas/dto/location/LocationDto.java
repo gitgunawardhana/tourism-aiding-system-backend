@@ -26,6 +26,7 @@ public class LocationDto {
     private List<String> locationPictures;
     private long numberOfActivities;
     private List<ActivityDto> locationActivities;
+    private List<Long> locationActivitiesId;
     private long numberOfAttractions;
     private List<LocationAttractionDto> locationAttractions;
 }

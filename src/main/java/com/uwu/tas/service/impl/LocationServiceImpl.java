@@ -171,6 +171,25 @@ public class LocationServiceImpl implements LocationService {
             locationDto.setModifiedDateTime(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
                     .format(location.getUpdatedDateTime()));
             locationDto.setNumberOfActivities(activityLocationDetailRepository.countByLocation(location));
+
+            List<ActivityLocationDetail> byLocationAndActivity_visibilityStatus = activityLocationDetailRepository.findByLocationAndActivity_VisibilityStatus(location, VisibilityStatus.VISIBLE);
+
+            ArrayList<Long> activityIds = new ArrayList<>();
+            ArrayList<ActivityDto> activityDtos = new ArrayList<>();
+
+            for (ActivityLocationDetail activityLocationDetail:byLocationAndActivity_visibilityStatus) {
+                ActivityDto activityDto = new ActivityDto();
+                activityDto.setId(activityLocationDetail.getActivity().getId());
+                activityDto.setActivityName(activityLocationDetail.getActivity().getActivityName());
+                activityDto.setImage(ACTIVITY_IMAGE_BASE_URL + "/" + activityLocationDetail.getActivity().getId());
+                activityDto.setStatus(activityLocationDetail.getActivity().getVisibilityStatus());
+                activityDto.setChecked(false);
+
+                activityIds.add(activityLocationDetail.getActivity().getId());
+                activityDtos.add(activityDto);
+            }
+            locationDto.setLocationActivities(activityDtos);
+            locationDto.setLocationActivitiesId(activityIds);
             locationDto.setNumberOfAttractions(locationAttractionRepository.countByLocation(location));
             return locationDto;
         }).collect(Collectors.toList());
