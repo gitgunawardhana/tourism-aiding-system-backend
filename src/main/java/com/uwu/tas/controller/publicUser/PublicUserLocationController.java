@@ -18,12 +18,22 @@ public class PublicUserLocationController {
 
     private final LocationService locationService;
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/all-locations")
     public ResponseEntity getAllLocations() {
         try {
             List<LocationDto> locations = locationService.getAllLocations();
             return ResponseEntity.ok(new CommonResponse<>(true, locations));
         } catch (CustomServiceException e) {
+            return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        }
+    }
+
+    @GetMapping(value = "/top-locations")
+    public ResponseEntity getTopLocations(){
+        try{
+            List<LocationDto> topLocations = locationService.getTopLocations();
+            return ResponseEntity.ok(new CommonResponse<>(true, topLocations));
+        } catch (CustomServiceException e){
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
         }
     }

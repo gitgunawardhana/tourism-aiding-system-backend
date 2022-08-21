@@ -21,7 +21,7 @@ public class PublicUserActivityController {
 
     private final ActivityService activityService;
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/all-activities")
     public ResponseEntity getAllActivities() {
         try {
             List<ActivityDto> allActivities = activityService.getAllActivities();
