@@ -8,6 +8,8 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,6 +39,20 @@ public class FileServiceImpl implements FileService {
         if (optional.isPresent()) {
             byte[] image = optional.get().getImage();
             return new ByteArrayResource(image);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Resource> getLocationImagesByLocationId(long locationId) {
+        List<LocationPicture> locationPictures = locationPictureRepository.getLocationImagesByLocationId(locationId);
+        if(!locationPictures.isEmpty()){
+            ArrayList<Resource> resources=new ArrayList<>();
+            for (LocationPicture locationPicture:locationPictures) {
+                byte[] image = locationPicture.getImage();
+                resources.add(new ByteArrayResource(image));
+            }
+            return resources;
         }
         return null;
     }
