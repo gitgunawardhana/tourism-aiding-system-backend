@@ -144,63 +144,61 @@ public class PublicUserServiceImpl implements PublicUserService {
         publicUserDetailsDto.setGender(publicUser.getGender());
 
         String username = publicUser.getUsername();
-        if (username==null){
+        if (username == null) {
             publicUserDetailsDto.setUsername("");
-        }else {
+        } else {
             publicUserDetailsDto.setUsername(publicUser.getUsername());
         }
 
         String town = publicUser.getTown();
-        if (town==null){
+        if (town == null) {
             publicUserDetailsDto.setTown("");
-        }else {
+        } else {
             publicUserDetailsDto.setTown(publicUser.getTown());
         }
 
 
-
         String nationality = publicUser.getNationality();
-        if (nationality==null){
+        if (nationality == null) {
             publicUserDetailsDto.setNationality("");
-        }else {
+        } else {
             publicUserDetailsDto.setNationality(publicUser.getNationality());
         }
 
         String country = publicUser.getCountry();
-        if (country==null){
+        if (country == null) {
             publicUserDetailsDto.setCountry("");
-        }else {
+        } else {
             publicUserDetailsDto.setCountry(publicUser.getCountry());
         }
 
         String zipCode = publicUser.getZipcode();
-        if (zipCode==null){
+        if (zipCode == null) {
             publicUserDetailsDto.setZipcode("");
-        }else {
+        } else {
             publicUserDetailsDto.setZipcode(publicUser.getZipcode());
         }
 
         String address = publicUser.getAddress();
-        if (address==null){
+        if (address == null) {
             publicUserDetailsDto.setAddress("");
-        }else {
+        } else {
             publicUserDetailsDto.setAddress(publicUser.getAddress());
         }
-
 
 
         return publicUserDetailsDto;
     }
 
     @Override
-    public void updateDetails(PublicUserDetailsDto publicUserDetailsDto){
+    public void updateDetails(PublicUserDetailsDto publicUserDetailsDto) {
         Optional<PublicUser> optionalPublicUser = publicUserRepository.findByEmail(publicUserDetailsDto.getEmail());
-        if (!optionalPublicUser.isPresent()){
+        if (!optionalPublicUser.isPresent()) {
             System.out.println("ERROR: VendorService.checkVerificationCode: Verification code not found");
             throw new CustomServiceException(404, "No verification code for given vendor");
         }
 
-        PublicUser publicUser =optionalPublicUser.get();
+        PublicUser publicUser = optionalPublicUser.get();
 
         publicUser.setUsername(publicUserDetailsDto.getUsername());
         publicUser.setFirstName(publicUserDetailsDto.getFirstName());
