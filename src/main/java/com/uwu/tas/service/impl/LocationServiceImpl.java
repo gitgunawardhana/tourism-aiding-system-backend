@@ -177,6 +177,28 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    public List<LocationDto> getTopLocations() {
+        List<Location> locations = locationRepository.findTopLocations();
+        return locations.stream().map(location1 -> {
+            LocationDto locationDto = new LocationDto();
+            locationDto.setId(location1.getId());
+            locationDto.setName(location1.getName());
+            locationDto.setLongitude(location1.getLongitude());
+            locationDto.setLatitude(location1.getLatitude());
+            locationDto.setDescription(location1.getDescription());
+            locationDto.setMinimumSpendingDays(location1.getMinimumSpendingDays());
+            locationDto.setVisibilityStatus(location1.getVisibilityStatus());
+            locationDto.setProvinceId(location1.getProvince().getId());
+            locationDto.setProvinceName(location1.getProvince().getName());
+            locationDto.setModifiedDateTime(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                    .format(location1.getUpdatedDateTime()));
+            locationDto.setNumberOfActivities(activityLocationDetailRepository.countByLocation(location1));
+            locationDto.setNumberOfAttractions(locationAttractionRepository.countByLocation(location1));
+            return locationDto;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
     public LocationDto getLocationById(long id) {
         Location location = locationRepository.findById(id).orElseThrow(() -> new CustomServiceException(404, "Location not found"));
         LocationDto locationDto = new LocationDto();

@@ -18,4 +18,8 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
 
     @Query(value = "SELECT l FROM Location l WHERE l.name LIKE %:text%")
     List<Location> findByNameLike(@Param("text") String text);
+
+//    @Query(value = "SELECT l.* FROM location l, (SELECT MAX(id)*RAND() randid FROM location) t WHERE l.id >= t.randid LIMIT 3", nativeQuery = true)
+    @Query(value = "SELECT * FROM location ORDER BY RAND() LIMIT 0,12", nativeQuery = true)
+    List<Location> findTopLocations();
 }
