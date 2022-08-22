@@ -3,6 +3,7 @@ package com.uwu.tas.service.impl;
 import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.uwu.tas.dto.publicUser.PublicUserCodeVerifyDto;
 import com.uwu.tas.dto.publicUser.PublicUserDetailsDto;
+import com.uwu.tas.dto.publicUser.PublicUserLogLnDetailsDto;
 import com.uwu.tas.dto.publicUser.PublicUserRegistrationDto;
 import com.uwu.tas.entity.PublicUser;
 import com.uwu.tas.entity.PublicUserVerificationCode;
@@ -215,6 +216,5 @@ public class PublicUserServiceImpl implements PublicUserService {
         publicUserRepository.save(publicUser);
 
     }
-
 
 }
