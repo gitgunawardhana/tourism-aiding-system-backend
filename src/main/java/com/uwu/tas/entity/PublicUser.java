@@ -46,6 +46,9 @@ public class PublicUser {
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
+    @OneToOne(mappedBy = "publicUser")
+    private PublicUserProfilePicture publicUserProfilePicture;
+
     @OneToMany(mappedBy = "publicUser")
     private List<VehicleReservation> vehicleReservations;
 

@@ -50,7 +50,9 @@ public class PublicUserController {
     @GetMapping(value = "/details")
     public ResponseEntity getUserDetails(@RequestParam(value = "email") String email) {
         try {
+            System.out.println(email);
             PublicUserDetailsDto result = publicUserService.getPublicUserDetails(email);
+            System.out.println(result);
             return ResponseEntity.ok(new CommonResponse<>(true, result));
         } catch (CustomServiceException ce) {
             return ResponseEntity.ok(new CommonResponse<>(false, ce.getMessage()));
@@ -60,7 +62,7 @@ public class PublicUserController {
     }
 
 
-    @PostMapping(value = "/update-details")
+    @PutMapping(value = "/update-details")
     public ResponseEntity updateDetails(@RequestBody PublicUserDetailsDto publicUserDetailsDto) {
         try {
             publicUserService.updateDetails(publicUserDetailsDto);
