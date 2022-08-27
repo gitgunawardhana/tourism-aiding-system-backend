@@ -25,4 +25,16 @@ public interface LocationAttractionRepository extends JpaRepository<LocationAttr
             "WHERE la.location=:location AND la.name LIKE %:text%")
     List<LocationAttraction> findByLocationAndNameLike(@Param("location") Location location,
                                                        @Param("text") String text);
+
+    @Query(value = "SELECT * FROM location_attraction ORDER BY RAND()", nativeQuery = true)
+    List<LocationAttraction> findTopAttractions();
+
+    @Query(value = "SELECT * FROM location_attraction WHERE location_id = ?1", nativeQuery = true)
+    List<LocationAttraction> findLocationAttractionsByLocation(long locationId);
+
+    @Query(value = "SELECT * FROM location_attraction WHERE location_id = ?1 LIMIT 0,3", nativeQuery = true)
+    List<LocationAttraction> findThreeAttractionsByLocation(long locationId);
+
+    @Query(value = "SELECT * FROM location_attraction WHERE location_id = ?1 ORDER BY RAND() LIMIT 0,3", nativeQuery = true)
+    List<LocationAttraction> findRandThreeAttractionsByLocation(long locationId);
 }

@@ -374,6 +374,26 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    public List<LocationAttractionDto> getAllLocationAttractions() {
+        List<LocationAttraction> attractions = locationAttractionRepository.findAll();
+        return attractions.stream().map(attraction -> new LocationAttractionDto(
+                attraction.getId(),
+                attraction.getName(),
+                attraction.getDescription(),
+                attraction.getTelephone(),
+                attraction.getEmail(),
+                attraction.getWebsite(),
+                attraction.getVisibilityStatus(),
+                DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                        .format(attraction.getUpdatedDateTime()),
+                attraction.getLocation().getId(),
+                locationAttractionPictureRepository.findByLocationAttraction(attraction).stream()
+                        .map(locationAttractionPicture -> LOCATION_ATTRACTION_IMAGE_BASE_URL + "/" + locationAttractionPicture.getId())
+                        .collect(Collectors.toList())
+        )).collect(Collectors.toList());
+    }
+
+    @Override
     public LocationAttractionDto getLocationAttractionById(long id) {
         LocationAttraction attraction = locationAttractionRepository.findById(id).orElseThrow(() -> new CustomServiceException(404, "Location attraction not found"));
         return new LocationAttractionDto(
@@ -391,5 +411,85 @@ public class LocationServiceImpl implements LocationService {
                         .map(locationAttractionPicture -> LOCATION_ATTRACTION_IMAGE_BASE_URL + "/" + locationAttractionPicture.getId())
                         .collect(Collectors.toList())
         );
+    }
+
+    @Override
+    public List<LocationAttractionDto> getTopAttractions() {
+        List<LocationAttraction> attractions = locationAttractionRepository.findTopAttractions();
+        return attractions.stream().map(attraction -> new LocationAttractionDto(
+                attraction.getId(),
+                attraction.getName(),
+                attraction.getDescription(),
+                attraction.getTelephone(),
+                attraction.getEmail(),
+                attraction.getWebsite(),
+                attraction.getVisibilityStatus(),
+                DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                        .format(attraction.getUpdatedDateTime()),
+                attraction.getLocation().getId(),
+                locationAttractionPictureRepository.findByLocationAttraction(attraction).stream()
+                        .map(locationAttractionPicture -> LOCATION_ATTRACTION_IMAGE_BASE_URL + "/" + locationAttractionPicture.getId())
+                        .collect(Collectors.toList())
+        )).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LocationAttractionDto> getAllAttractionsByLocation(long locationId) {
+        List<LocationAttraction> attractions = locationAttractionRepository.findLocationAttractionsByLocation(locationId);
+        return attractions.stream().map(attraction -> new LocationAttractionDto(
+                attraction.getId(),
+                attraction.getName(),
+                attraction.getDescription(),
+                attraction.getTelephone(),
+                attraction.getEmail(),
+                attraction.getWebsite(),
+                attraction.getVisibilityStatus(),
+                DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                        .format(attraction.getUpdatedDateTime()),
+                attraction.getLocation().getId(),
+                locationAttractionPictureRepository.findByLocationAttraction(attraction).stream()
+                        .map(locationAttractionPicture -> LOCATION_ATTRACTION_IMAGE_BASE_URL + "/" + locationAttractionPicture.getId())
+                        .collect(Collectors.toList())
+        )).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LocationAttractionDto> getThreeAttractionsByLocation(long locationId) {
+        List<LocationAttraction> attractions = locationAttractionRepository.findThreeAttractionsByLocation(locationId);
+        return attractions.stream().map(attraction -> new LocationAttractionDto(
+                attraction.getId(),
+                attraction.getName(),
+                attraction.getDescription(),
+                attraction.getTelephone(),
+                attraction.getEmail(),
+                attraction.getWebsite(),
+                attraction.getVisibilityStatus(),
+                DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                        .format(attraction.getUpdatedDateTime()),
+                attraction.getLocation().getId(),
+                locationAttractionPictureRepository.findByLocationAttraction(attraction).stream()
+                        .map(locationAttractionPicture -> LOCATION_ATTRACTION_IMAGE_BASE_URL + "/" + locationAttractionPicture.getId())
+                        .collect(Collectors.toList())
+        )).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LocationAttractionDto> getRandThreeAttractionsByLocation(long locationId) {
+        List<LocationAttraction> attractions = locationAttractionRepository.findRandThreeAttractionsByLocation(locationId);
+        return attractions.stream().map(attraction -> new LocationAttractionDto(
+                attraction.getId(),
+                attraction.getName(),
+                attraction.getDescription(),
+                attraction.getTelephone(),
+                attraction.getEmail(),
+                attraction.getWebsite(),
+                attraction.getVisibilityStatus(),
+                DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                        .format(attraction.getUpdatedDateTime()),
+                attraction.getLocation().getId(),
+                locationAttractionPictureRepository.findByLocationAttraction(attraction).stream()
+                        .map(locationAttractionPicture -> LOCATION_ATTRACTION_IMAGE_BASE_URL + "/" + locationAttractionPicture.getId())
+                        .collect(Collectors.toList())
+        )).collect(Collectors.toList());
     }
 }
