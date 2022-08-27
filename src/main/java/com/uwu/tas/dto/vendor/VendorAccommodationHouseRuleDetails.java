@@ -12,6 +12,7 @@ import java.time.LocalTime;
 @Getter
 @Setter
 public class VendorAccommodationHouseRuleDetails {
+    private long id;
     private LocalTime checkInTime;
     private LocalTime checkOutTime;
 }

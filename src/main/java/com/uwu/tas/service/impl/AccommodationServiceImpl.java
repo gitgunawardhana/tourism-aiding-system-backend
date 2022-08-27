@@ -44,11 +44,12 @@ public class AccommodationServiceImpl implements AccommodationService {
 
     @Override
     public VendorAccommodationLocationDetailsDto registerAccommodationLocationDetails(VendorAccommodationLocationDetailsDto vendorAccommodationLocationDetailsDto) {
-        Optional<Vendor> optionalVendor = vendorRepository.findById(vendorAccommodationLocationDetailsDto.getId());
-        if (!optionalVendor.isPresent()) {
-            throw new CustomServiceException(404, "Vendor not found");
+        Optional<Accommodation> optionalAccommodation = accommodationRepository.findById(vendorAccommodationLocationDetailsDto.getId());
+        if (!optionalAccommodation.isPresent()){
+            throw new CustomServiceException(404, "Accommodation not found");
         }
-        Accommodation accommodation = new Accommodation();
+        Accommodation accommodation = optionalAccommodation.get();
+
         accommodation.setAddressLine1(vendorAccommodationLocationDetailsDto.getAddressLine1());
         accommodation.setBuildingNo(vendorAccommodationLocationDetailsDto.getBuildingNo());
         accommodation.setCity(vendorAccommodationLocationDetailsDto.getCity());
@@ -63,7 +64,20 @@ public class AccommodationServiceImpl implements AccommodationService {
         return vendorAccommodationLocationDetailsDto;
     }
 
+    @Override
+    public VendorAccommodationHouseRuleDetails registerAccommodationHouseRuleDetails(VendorAccommodationHouseRuleDetails vendorAccommodationHouseRuleDetails) {
+        Optional<Accommodation> optionalAccommodation = accommodationRepository.findById(vendorAccommodationHouseRuleDetails.getId());
+        if (!optionalAccommodation.isPresent()){
+            throw new CustomServiceException(404, "Accommodation not found");
+        }
+        Accommodation accommodation = optionalAccommodation.get();
 
+        accommodation.setCheckInTime(vendorAccommodationHouseRuleDetails.getCheckInTime());
+        accommodation.setCheckOutTime(vendorAccommodationHouseRuleDetails.getCheckOutTime());
 
+        accommodationRepository.save(accommodation);
+        return vendorAccommodationHouseRuleDetails;
+
+    }
 
 }

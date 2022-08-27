@@ -2,16 +2,14 @@ package com.uwu.tas.controller.vendor;
 
 import com.uwu.tas.dto.CommonResponse;
 import com.uwu.tas.dto.vendor.VendorAccommodationBasicDetailsDto;
+import com.uwu.tas.dto.vendor.VendorAccommodationHouseRuleDetails;
 import com.uwu.tas.dto.vendor.VendorAccommodationLocationDetailsDto;
 import com.uwu.tas.dto.vendor.VendorRegisterDto;
 import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.service.AccommodationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,8 +34,8 @@ public class VendorAccommodationController {
 
     }
 
-    @PostMapping(value = "/accommodation-location-register")
-    public ResponseEntity saveVendorAccommodationDetails(@RequestBody VendorAccommodationLocationDetailsDto vendorAccommodationLocationDetailsDto) {
+    @PutMapping(value = "/accommodation-location-register")
+    public ResponseEntity saveVendorAccommodationLocationDetails(@RequestBody VendorAccommodationLocationDetailsDto vendorAccommodationLocationDetailsDto) {
         try {
             VendorAccommodationLocationDetailsDto response = accommodationService.registerAccommodationLocationDetails(vendorAccommodationLocationDetailsDto);
             return ResponseEntity.ok(new CommonResponse<>(true, response));
@@ -49,7 +47,18 @@ public class VendorAccommodationController {
         }
     }
 
-
+    @PutMapping(value = "/accommodation-house-rule-register")
+    public ResponseEntity saveVendorAccommodationHouseRuleDetails(@RequestBody VendorAccommodationHouseRuleDetails vendorAccommodationHouseRuleDetails) {
+        try {
+            VendorAccommodationHouseRuleDetails response = accommodationService.registerAccommodationHouseRuleDetails(vendorAccommodationHouseRuleDetails);
+            return ResponseEntity.ok(new CommonResponse<>(true, response));
+        } catch (CustomServiceException ce) {
+            return ResponseEntity.ok(new CommonResponse<>(false, ce.getMessage()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
+        }
+    }
 
 
 }
