@@ -2,6 +2,7 @@ package com.uwu.tas.controller.vendor;
 
 import com.uwu.tas.dto.CommonResponse;
 import com.uwu.tas.dto.vendor.VendorAccommodationBasicDetailsDto;
+import com.uwu.tas.dto.vendor.VendorAccommodationLocationDetailsDto;
 import com.uwu.tas.dto.vendor.VendorRegisterDto;
 import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.service.AccommodationService;
@@ -20,10 +21,10 @@ public class VendorAccommodationController {
     private final AccommodationService accommodationService;
 
     @PostMapping(value = "/accommodation-register")
-    public ResponseEntity saveVendorAccommodationDetails(@RequestBody VendorAccommodationBasicDetailsDto vendorAccommodationBasicDetailsDto){
+    public ResponseEntity saveVendorAccommodationDetails(@RequestBody VendorAccommodationBasicDetailsDto vendorAccommodationBasicDetailsDto) {
         try {
             System.out.println(vendorAccommodationBasicDetailsDto.getId());
-            VendorAccommodationBasicDetailsDto response = accommodationService.registerAccommodation(vendorAccommodationBasicDetailsDto);
+            VendorAccommodationBasicDetailsDto response = accommodationService.registerAccommodationBasicDetails(vendorAccommodationBasicDetailsDto);
             System.out.println();
             return ResponseEntity.ok(new CommonResponse<>(true, response));
         } catch (CustomServiceException ce) {
@@ -35,6 +36,18 @@ public class VendorAccommodationController {
 
     }
 
+    @PostMapping(value = "/accommodation-location-register")
+    public ResponseEntity saveVendorAccommodationDetails(@RequestBody VendorAccommodationLocationDetailsDto vendorAccommodationLocationDetailsDto) {
+        try {
+            VendorAccommodationLocationDetailsDto response = accommodationService.registerAccommodationLocationDetails(vendorAccommodationLocationDetailsDto);
+            return ResponseEntity.ok(new CommonResponse<>(true, response));
+        } catch (CustomServiceException ce) {
+            return ResponseEntity.ok(new CommonResponse<>(false, ce.getMessage()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
+        }
+    }
 
 
 
