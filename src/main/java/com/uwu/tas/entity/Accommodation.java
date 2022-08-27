@@ -23,9 +23,8 @@ public class Accommodation {
     private String name;
     @Lob
     private String description;
-
-    private String telephone;
     private String email;
+    private String telephone;
     private boolean emailVerified;
     private String addressLine1;
     private String buildingNo;
