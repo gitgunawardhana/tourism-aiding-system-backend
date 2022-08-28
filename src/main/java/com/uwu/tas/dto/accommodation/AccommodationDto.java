@@ -33,9 +33,9 @@ public class AccommodationDto {
     private double longitude;
     private LocalTime checkInTime;
     private LocalTime checkOutTime;
-    private boolean parking;
-    private boolean smoking;
-    private boolean pets;
+//    private boolean parking;
+//    private boolean smoking;
+//    private boolean pets;
     private List<String> pictures;
 
     public AccommodationDto(long id, String name, String telephone, String email, double rating, int ratingCount, String accommodationType, long numberOfAvailablePackages, VisibilityStatus visibilityStatus) {

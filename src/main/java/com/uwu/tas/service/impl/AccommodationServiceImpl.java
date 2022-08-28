@@ -1,15 +1,14 @@
 package com.uwu.tas.service.impl;
 
 import com.uwu.tas.dto.accommodation.AccommodationDto;
+import com.uwu.tas.dto.vendor.*;
 import com.uwu.tas.entity.Accommodation;
+import com.uwu.tas.entity.AccommodationFacility;
 import com.uwu.tas.entity.AccommodationPicture;
 import com.uwu.tas.entity.Vendor;
 import com.uwu.tas.enums.VendorType;
 import com.uwu.tas.exception.CustomServiceException;
-import com.uwu.tas.repository.AccommodationPictureRepository;
-import com.uwu.tas.repository.AccommodationRepository;
-import com.uwu.tas.repository.RoomPackageRepository;
-import com.uwu.tas.repository.VendorRepository;
+import com.uwu.tas.repository.*;
 import com.uwu.tas.service.AccommodationService;
 import com.uwu.tas.util.Base64Handler;
 import lombok.RequiredArgsConstructor;
@@ -19,26 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import com.uwu.tas.dto.vendor.*;
-import com.uwu.tas.entity.Accommodation;
-import com.uwu.tas.entity.AccommodationFacility;
-import com.uwu.tas.entity.AccommodationPicture;
-import com.uwu.tas.entity.Vendor;
-import com.uwu.tas.exception.CustomServiceException;
-import com.uwu.tas.repository.AccommodationFacilityRepository;
-import com.uwu.tas.repository.AccommodationPictureRepository;
-import com.uwu.tas.repository.AccommodationRepository;
-import com.uwu.tas.repository.VendorRepository;
-import com.uwu.tas.service.AccommodationService;
-import com.uwu.tas.util.Base64Handler;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import static com.uwu.tas.constant.TASConstants.Url.ACCOMMODATION_IMAGE_BASE_USER;
 
 @Service
@@ -48,7 +28,6 @@ public class AccommodationServiceImpl implements AccommodationService {
     private final AccommodationRepository accommodationRepository;
     private final RoomPackageRepository roomPackageRepository;
     private final VendorRepository vendorRepository;
-    private final AccommodationRepository accommodationRepository;
     private final AccommodationFacilityRepository accommodationFacilityRepository;
     private final Base64Handler base64Handler;
     private final AccommodationPictureRepository accommodationPictureRepository;
@@ -88,7 +67,7 @@ public class AccommodationServiceImpl implements AccommodationService {
                 accommodation.getDescription(),
                 accommodation.getLocation().getName(),
                 accommodation.getAddressLine1(),
-                accommodation.getAddressLine2(),
+                accommodation.getBuildingNo(),
                 accommodation.getCity(),
                 accommodation.getProvince(),
                 accommodation.getPostalCode(),
@@ -96,9 +75,9 @@ public class AccommodationServiceImpl implements AccommodationService {
                 accommodation.getLongitude(),
                 accommodation.getCheckInTime(),
                 accommodation.getCheckOutTime(),
-                accommodation.isParking(),
-                accommodation.isSmoking(),
-                accommodation.isPets(),
+//                accommodation.isParking(),
+//                accommodation.isSmoking(),
+//                accommodation.isPets(),
                 getPicturesForAccommodation(accommodation));
     }
 
