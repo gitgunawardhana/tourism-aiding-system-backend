@@ -24,22 +24,20 @@ public class Accommodation {
     private String name;
     @Lob
     private String description;
-
-    private String telephone;
     private String email;
-    private boolean email_verified;
+    private String telephone;
+    private boolean emailVerified;
     private String addressLine1;
-    private String addressLine2;
+    private String buildingNo;
     private String city;
     private String province;
     private String postalCode;
+    private double distanceAirport;
+    private double distanceCity;
     private double latitude;
     private double longitude;
     private LocalTime checkInTime;
     private LocalTime checkOutTime;
-    private boolean parking;
-    private boolean smoking;
-    private boolean pets;
     private double rating;
     private int ratingCount;
 
@@ -63,6 +61,10 @@ public class Accommodation {
 
     @OneToMany(mappedBy = "accommodation")
     private List<AccommodationPicture> accommodationPictures;
+
+
+    @OneToOne(mappedBy = "accommodation")
+    private AccommodationFacility accommodationFacility;
 
 
 }

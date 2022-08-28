@@ -19,7 +19,8 @@ public class AccommodationPicture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String url;
+    @Lob
+    private byte[] image;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn

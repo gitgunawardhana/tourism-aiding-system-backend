@@ -22,4 +22,7 @@ public interface VendorRepository extends JpaRepository<Vendor, Long> {
             "OR v.email LIKE %:text% " +
             "OR v.mobile LIKE %:text%")
     List<Vendor> findByText(@Param("text") String text);
+
+    Optional <Vendor> findById(int id);
+
 }

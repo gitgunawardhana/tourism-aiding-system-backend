@@ -7,25 +7,24 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-public class RoomPackage {
+public class PublicUserProfilePicture {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private double id;
 
-    private int noOfPeople;
-    private double price;
-    private double discount;
-    private String bedDetails;
-    private boolean payAtProperty;
-    private boolean freeCancellation;
+    private byte[] image;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn
-    private Room room;
+    private PublicUser publicUser;
+
+
 }
