@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/file")
@@ -26,9 +28,9 @@ public class ImageController {
         return fileService.getLocationImage(id);
     }
 
-    @GetMapping(value = "/image/location/location-id/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public Resource getFirstLocationImageByLocationId(@PathVariable(value = "id") long id) {
-        return fileService.getFirstLocationImageByLocationId(id);
+    @GetMapping(value = "/images/location/location-id/{id}/{imageIndex}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public Resource getLocationImagesByLocationId(@PathVariable(value = "id") long id, @PathVariable(value = "imageIndex") int imageIndex) {
+        return fileService.getLocationImagesByLocationId(id).get(imageIndex);
     }
 
     @GetMapping(value = "/image/location/attraction/{id}", produces = MediaType.IMAGE_JPEG_VALUE)

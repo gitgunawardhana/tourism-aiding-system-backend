@@ -1,5 +1,6 @@
 package com.uwu.tas.repository;
 
+import com.uwu.tas.dto.configuration.ActivityDto;
 import com.uwu.tas.entity.Activity;
 import com.uwu.tas.entity.ActivityLocationDetail;
 import com.uwu.tas.entity.Location;
