@@ -1,4 +1,4 @@
-package com.uwu.tas.entity;
+package com.uwu.tas.dto.vendor;
 
 
 import lombok.AllArgsConstructor;
@@ -6,18 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
 
-public class AccommodationFacility {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class VendorAccommodationFacilityDetailsDto {
     private long id;
 
 
@@ -42,11 +38,4 @@ public class AccommodationFacility {
     private boolean restaurant;
     private boolean gym;
     private boolean swimmingPool;
-
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn
-    private  Accommodation accommodation;
-
-
 }
