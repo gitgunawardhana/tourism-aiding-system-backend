@@ -1,9 +1,6 @@
 package com.uwu.tas.service;
 
-import com.uwu.tas.dto.vendor.VendorAccommodationBasicDetailsDto;
-import com.uwu.tas.dto.vendor.VendorAccommodationFacilityDetailsDto;
-import com.uwu.tas.dto.vendor.VendorAccommodationHouseRuleDetails;
-import com.uwu.tas.dto.vendor.VendorAccommodationLocationDetailsDto;
+import com.uwu.tas.dto.vendor.*;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,4 +12,6 @@ public interface AccommodationService {
     VendorAccommodationHouseRuleDetails registerAccommodationHouseRuleDetails(VendorAccommodationHouseRuleDetails vendorAccommodationHouseRuleDetails);
 
     VendorAccommodationFacilityDetailsDto registerVendorAccommodationFacilityDetails(VendorAccommodationFacilityDetailsDto vendorAccommodationFacilityDetailsDto);
+
+    void saveAccommodationPicture(VendorAccommodationPictureDto vendorAccommodationPictureDto);
 }

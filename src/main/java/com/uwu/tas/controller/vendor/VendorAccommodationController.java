@@ -2,6 +2,7 @@ package com.uwu.tas.controller.vendor;
 
 import com.uwu.tas.dto.CommonResponse;
 import com.uwu.tas.dto.vendor.*;
+import com.uwu.tas.entity.AccommodationPicture;
 import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.service.AccommodationService;
 import lombok.RequiredArgsConstructor;
@@ -71,5 +72,22 @@ public class VendorAccommodationController {
             return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
 
+    }
+
+    @PostMapping(value = "/accommodation-picture")
+    public ResponseEntity saveVendorAccommodationPicturesDetails(@RequestBody VendorAccommodationPictureDto vendorAccommodationPictureDto) {
+        try {
+            accommodationService.saveAccommodationPicture(vendorAccommodationPictureDto);
+            return ResponseEntity.ok(new CommonResponse<>(true,"Picture Saved Successful !"));
+        } catch (CustomServiceException e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            if (ee.getMessage().startsWith("Packet for query is too large")) {
+                return ResponseEntity.ok(new CommonResponse<>(false, "Given image sizes are too big"));
+            }
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
+        }
     }
 }
