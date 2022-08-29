@@ -1,4 +1,4 @@
-package com.uwu.tas.dto.publicUser;
+package com.uwu.tas.dto.admin;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,11 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PublicUserRegistrationDto {
+public class AdminDto {
     private long id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String mobile;
+    private String username;
     private String password;
 }

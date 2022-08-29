@@ -1,4 +1,4 @@
-package com.uwu.tas.dto.publicuser;
+package com.uwu.tas.dto.publicUser;
 
 import com.uwu.tas.enums.Gender;
 import lombok.*;

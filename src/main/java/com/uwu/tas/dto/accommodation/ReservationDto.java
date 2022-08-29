@@ -1,6 +1,6 @@
 package com.uwu.tas.dto.accommodation;
 
-import com.uwu.tas.dto.publicuser.UserDto;
+import com.uwu.tas.dto.publicUser.UserDto;
 import com.uwu.tas.enums.PaymentMethod;
 import com.uwu.tas.enums.ReservationStatus;
 import lombok.*;

@@ -3,7 +3,6 @@ package com.uwu.tas.controller.publicUser;
 import com.uwu.tas.dto.CommonResponse;
 import com.uwu.tas.dto.publicUser.PublicUserCodeVerifyDto;
 import com.uwu.tas.dto.publicUser.PublicUserDetailsDto;
-import com.uwu.tas.dto.publicUser.PublicUserLogLnDetailsDto;
 import com.uwu.tas.dto.publicUser.PublicUserRegistrationDto;
 import com.uwu.tas.dto.vendor.VendorRegisterDto;
 import com.uwu.tas.exception.CustomServiceException;
@@ -74,7 +73,6 @@ public class PublicUserController {
         }
 
     }
-
 
 
 }

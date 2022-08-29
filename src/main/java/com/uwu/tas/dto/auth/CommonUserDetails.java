@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommonUserDetails {
+public class CommonUserDetails  implements CommonUserAuth{
     private String username;
     private String firstName;
     private String lastName;

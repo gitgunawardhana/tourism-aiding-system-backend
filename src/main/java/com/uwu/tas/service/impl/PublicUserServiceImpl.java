@@ -1,13 +1,10 @@
 package com.uwu.tas.service.impl;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.uwu.tas.dto.publicUser.PublicUserCodeVerifyDto;
 import com.uwu.tas.dto.publicUser.PublicUserDetailsDto;
-import com.uwu.tas.dto.publicUser.PublicUserLogLnDetailsDto;
 import com.uwu.tas.dto.publicUser.PublicUserRegistrationDto;
 import com.uwu.tas.entity.PublicUser;
 import com.uwu.tas.entity.PublicUserVerificationCode;
-import com.uwu.tas.entity.Vendor;
 import com.uwu.tas.enums.UserStatus;
 import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.repository.PublicUserRepository;
@@ -15,10 +12,9 @@ import com.uwu.tas.repository.PublicUserVerificationCodeRepository;
 import com.uwu.tas.service.PublicUserService;
 import com.uwu.tas.util.EmailSender;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -33,7 +29,7 @@ public class PublicUserServiceImpl implements PublicUserService {
     private final PublicUserRepository publicUserRepository;
     private final PublicUserVerificationCodeRepository publicUserVerificationCodeRepository;
     private final EmailSender emailSender;
-
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public PublicUserRegistrationDto registerPublicUser(PublicUserRegistrationDto registrationDto) {
@@ -45,9 +41,9 @@ public class PublicUserServiceImpl implements PublicUserService {
             publicUser.setEmail(registrationDto.getEmail());
             publicUser.setFirstName(registrationDto.getFirstName());
             publicUser.setLastName(registrationDto.getLastName());
-            publicUser.setPassword(registrationDto.getPassword());
+            publicUser.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
             publicUser.setMobile(registrationDto.getMobile());
-            publicUser.setStatus(UserStatus.valueOf("PENDING"));
+            publicUser.setStatus(UserStatus.PENDING);
 
             //send verification email
             sendVerificationCode(registrationDto.getEmail());
@@ -112,7 +108,7 @@ public class PublicUserServiceImpl implements PublicUserService {
                 System.out.println("INFO: VendorService.checkVerificationCode: Code verified successfully");
                 PublicUser publicUser = optionalPublicUser.get();
                 publicUser.setEmailVerified(true);
-                publicUser.setStatus(UserStatus.valueOf("ACTIVE"));
+                publicUser.setStatus(UserStatus.ACTIVE);
                 publicUserRepository.save(publicUser);
                 return;
             }
