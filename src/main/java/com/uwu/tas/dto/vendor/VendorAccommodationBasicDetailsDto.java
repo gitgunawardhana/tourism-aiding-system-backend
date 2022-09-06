@@ -13,7 +13,8 @@ import javax.persistence.Lob;
 @Getter
 @Setter
 public class VendorAccommodationBasicDetailsDto {
-    private long id;
+    private long vendorId;
+    private long accommodationId;
     private String name;
     @Lob
     private String description;

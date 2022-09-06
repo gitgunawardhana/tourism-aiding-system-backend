@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 public class VendorAccommodationPictureDto {
-    private long id;
+    private long accommodationId;
     private List<String> image;
 
 }

@@ -1,9 +1,12 @@
 package com.uwu.tas.service;
 
 import com.uwu.tas.dto.accommodation.AccommodationDto;
+import com.uwu.tas.dto.accommodation.PackagesDto;
+import com.uwu.tas.dto.accommodation.RoomDto;
 import com.uwu.tas.entity.Vendor;
 import org.springframework.stereotype.Service;
 import com.uwu.tas.dto.vendor.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,7 +22,12 @@ public interface AccommodationService {
 
     VendorAccommodationHouseRuleDetails registerAccommodationHouseRuleDetails(VendorAccommodationHouseRuleDetails vendorAccommodationHouseRuleDetails);
 
-    VendorAccommodationFacilityDetailsDto registerVendorAccommodationFacilityDetails(VendorAccommodationFacilityDetailsDto vendorAccommodationFacilityDetailsDto);
+    void registerVendorAccommodationFacilityDetails(VendorAccommodationFacilityDetailsDto vendorAccommodationFacilityDetailsDto);
 
     void saveAccommodationPicture(VendorAccommodationPictureDto vendorAccommodationPictureDto);
+
+    @Transactional
+    void saveRoom(RoomDto roomDto);
+
+    void saveRoomPackages(PackagesDto packagesDto);
 }

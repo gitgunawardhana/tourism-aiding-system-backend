@@ -29,10 +29,11 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                         "/user/register/**",
                         "/vendor/verify/**",
                         "/vendor/register/**",
-                        "/admin/create/**")
+                        "/admin/create/**",
+                        "/public-user/**")
                 .permitAll()
 
-                .antMatchers("/user/**", "/public-user/**")
+                .antMatchers("/user/**")
                 .access("hasRole('ROLE_PUBLIC_USER')")
 
                 .antMatchers("/vendor/**")

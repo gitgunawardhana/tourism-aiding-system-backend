@@ -24,8 +24,9 @@ public class Room {
 
     @Lob
     private String description;
-    private double size;
+    private String size;
     private int availableCount;
+    private int totalCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn

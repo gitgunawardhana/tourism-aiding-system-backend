@@ -1,5 +1,6 @@
 package com.uwu.tas.entity;
 
+import com.uwu.tas.enums.HousingFacilityType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,21 +8,19 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-public class RoomPicture {
+public class HousingFacility {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Lob
-    private byte[] image;
+    private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
-    private Room room;
+    @Enumerated(EnumType.STRING)
+    private HousingFacilityType type;
 }

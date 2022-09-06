@@ -2,6 +2,7 @@ package com.uwu.tas.service;
 
 import com.uwu.tas.dto.location.LocationAttractionDto;
 import com.uwu.tas.dto.location.LocationDto;
+import com.uwu.tas.dto.location.LocationNameDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,8 @@ public interface LocationService {
     LocationDto getLocationById(long id);
 
     String getLocationNameById(long id);
+
+    List<LocationNameDto> getAllLocationNames();
 
     @Transactional
     void createLocationAttraction(LocationAttractionDto locationAttractionDto);

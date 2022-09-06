@@ -83,4 +83,12 @@ public class AccommodationTypeServiceImpl implements AccommodationTypeService {
                         ACCOMMODATION_TYPE_IMAGE_BASE_URL + "/" + accommodationType.getId(),
                         accommodationType.getStatus())).collect(Collectors.toList());
     }
+
+    @Override
+    public List<AccommodationTypeDto> getAllVisibleAccommodationTypes() {
+        return accommodationTypeRepository.findAllByStatus(VisibilityStatus.VISIBLE).stream().map(accommodationType ->
+                new AccommodationTypeDto(accommodationType.getId(),
+                        accommodationType.getName(),
+                        null,null)).collect(Collectors.toList());
+    }
 }

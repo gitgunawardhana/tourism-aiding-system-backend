@@ -20,33 +20,38 @@ public class AccommodationFacility {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+//    private boolean parking;
+//    private boolean privateCheckInOut;
+//    private boolean twentyFourHourCheckInOut;
+//    private boolean frontDesk;
+//    private boolean petsAllowed;
+//    private boolean freeWiFi;
+//    private boolean roomService;
+//
+//    private boolean laundry;
+//    private boolean transportAirport;
+//    private boolean security;
+//    private boolean individualAirConditioning;
+//    private boolean cleaningSupplies;
+//    private boolean freeFaceMasks;
+//    private boolean cleaningProduct;
+//    private boolean handSanitizer;
+//    private boolean contactlessCheckIn;
+//    private boolean cleanedByCompany;
+//
+//    private boolean bar;
+//    private boolean smokingRoom;
+//    private boolean restaurant;
+//    private boolean gym;
+//    private boolean swimmingPool;
 
-    private boolean privateCheckInOut;
-    private boolean frontDesk;
-    private boolean checkIn;
-    private boolean carPark;
-    private boolean laundry;
-    private boolean petsAllowed;
-    private boolean transportAirport;
-    private boolean security;
-    private boolean individualAirConditioning;
-    private boolean cleaningSupplies;
-    private boolean freeFaceMasks;
-    private boolean cleaningProduct;
-    private boolean handSanitizer;
-    private boolean contactlessCheck;
-    private boolean cleanedByCompany;
-    private boolean parking;
-    private boolean bar;
-    private boolean smokingRoom;
-    private boolean restaurant;
-    private boolean gym;
-    private boolean swimmingPool;
-
-
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
-    private  Accommodation accommodation;
+    private HousingFacility housingFacility;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Accommodation accommodation;
 
 
 }

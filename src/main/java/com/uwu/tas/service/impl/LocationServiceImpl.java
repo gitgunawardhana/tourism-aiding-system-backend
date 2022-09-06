@@ -3,6 +3,7 @@ package com.uwu.tas.service.impl;
 import com.uwu.tas.dto.configuration.ActivityDto;
 import com.uwu.tas.dto.location.LocationAttractionDto;
 import com.uwu.tas.dto.location.LocationDto;
+import com.uwu.tas.dto.location.LocationNameDto;
 import com.uwu.tas.entity.*;
 import com.uwu.tas.enums.VisibilityStatus;
 import com.uwu.tas.exception.CustomServiceException;
@@ -177,7 +178,7 @@ public class LocationServiceImpl implements LocationService {
             ArrayList<Long> activityIds = new ArrayList<>();
             ArrayList<ActivityDto> activityDtos = new ArrayList<>();
 
-            for (ActivityLocationDetail activityLocationDetail:byLocationAndActivity_visibilityStatus) {
+            for (ActivityLocationDetail activityLocationDetail : byLocationAndActivity_visibilityStatus) {
                 ActivityDto activityDto = new ActivityDto();
                 activityDto.setId(activityLocationDetail.getActivity().getId());
                 activityDto.setActivityName(activityLocationDetail.getActivity().getActivityName());
@@ -281,6 +282,11 @@ public class LocationServiceImpl implements LocationService {
     public String getLocationNameById(long id) {
         Location location = locationRepository.findById(id).orElseThrow(() -> new CustomServiceException(404, "Location not found"));
         return location.getName();
+    }
+
+    @Override
+    public List<LocationNameDto> getAllLocationNames() {
+        return locationRepository.findAll().stream().map(location -> new LocationNameDto(location.getId(), location.getName())).collect(Collectors.toList());
     }
 
     @Override

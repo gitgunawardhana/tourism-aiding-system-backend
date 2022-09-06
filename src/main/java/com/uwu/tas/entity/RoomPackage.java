@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import java.math.BigDecimal;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,9 +21,13 @@ public class RoomPackage {
     private long id;
 
     private int noOfPeople;
-    private double price;
+
+    @Digits(integer = 9, fraction = 2)
+    private BigDecimal price;
+
     private double discount;
     private String bedDetails;
+
     private boolean payAtProperty;
     private boolean freeCancellation;
 

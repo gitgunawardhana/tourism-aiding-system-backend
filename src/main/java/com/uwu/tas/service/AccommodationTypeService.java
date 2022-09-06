@@ -16,4 +16,6 @@ public interface AccommodationTypeService {
     void deleteAccommodationType(long id);
 
     List<AccommodationTypeDto> getAllAccommodationTypes();
+
+    List<AccommodationTypeDto> getAllVisibleAccommodationTypes();
 }

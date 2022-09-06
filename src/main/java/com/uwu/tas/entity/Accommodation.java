@@ -63,8 +63,8 @@ public class Accommodation {
     private List<AccommodationPicture> accommodationPictures;
 
 
-    @OneToOne(mappedBy = "accommodation")
-    private AccommodationFacility accommodationFacility;
+    @OneToMany(mappedBy = "accommodation")
+    private List<AccommodationFacility> accommodationFacilities;
 
 
 }
