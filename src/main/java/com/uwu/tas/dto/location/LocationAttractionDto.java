@@ -23,4 +23,7 @@ public class LocationAttractionDto {
     private String modifiedDateTime;
     private long locationId;
     private List<String> locationAttractionPictures;
+
+
+
 }

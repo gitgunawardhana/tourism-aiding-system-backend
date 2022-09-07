@@ -1,6 +1,7 @@
 package com.uwu.tas.entity;
 
 import com.uwu.tas.enums.GearType;
+import com.uwu.tas.enums.VisibilityStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,9 @@ public class Vehicle {
     private boolean childSeats;
     private boolean availability;
     private boolean airConditioning;
+
+    @Enumerated(EnumType.STRING)
+    private VisibilityStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn

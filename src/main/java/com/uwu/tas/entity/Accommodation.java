@@ -1,6 +1,7 @@
 package com.uwu.tas.entity;
 
 
+import com.uwu.tas.enums.VisibilityStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,24 +24,29 @@ public class Accommodation {
     private String name;
     @Lob
     private String description;
-
-    private String telephone;
     private String email;
-    private boolean email_verified;
+    private String telephone;
+    private boolean emailVerified;
     private String addressLine1;
-    private String addressLine2;
+    private String buildingNo;
     private String city;
     private String province;
-    private String postal_code;
+    private String postalCode;
+    private double distanceAirport;
+    private double distanceCity;
     private double latitude;
     private double longitude;
     private LocalTime checkInTime;
     private LocalTime checkOutTime;
-    private boolean parking;
-    private boolean smoking;
-    private boolean pets;
     private double rating;
     private int ratingCount;
+
+    @Enumerated(EnumType.STRING)
+    private VisibilityStatus status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Location location;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
@@ -55,6 +61,10 @@ public class Accommodation {
 
     @OneToMany(mappedBy = "accommodation")
     private List<AccommodationPicture> accommodationPictures;
+
+
+    @OneToOne(mappedBy = "accommodation")
+    private AccommodationFacility accommodationFacility;
 
 
 }

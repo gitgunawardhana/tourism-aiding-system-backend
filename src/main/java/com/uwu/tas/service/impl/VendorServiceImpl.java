@@ -1,15 +1,20 @@
 package com.uwu.tas.service.impl;
 
 import com.uwu.tas.dto.vendor.VendorCodeVerifyDto;
+import com.uwu.tas.dto.vendor.VendorDto;
 import com.uwu.tas.dto.vendor.VendorRegisterDto;
 import com.uwu.tas.entity.Vendor;
 import com.uwu.tas.entity.VendorVerificationCode;
+import com.uwu.tas.enums.UserStatus;
 import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.repository.VendorRepository;
 import com.uwu.tas.repository.VendorVerificationCodeRepository;
+import com.uwu.tas.service.AccommodationService;
+import com.uwu.tas.service.VehicleService;
 import com.uwu.tas.service.VendorService;
 import com.uwu.tas.util.EmailSender;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +33,11 @@ public class VendorServiceImpl implements VendorService {
     private final VendorRepository vendorRepository;
     private final VendorVerificationCodeRepository vendorVerificationCodeRepository;
 
+    private final AccommodationService accommodationService;
+    private final VehicleService vehicleService;
+
     private final EmailSender emailSender;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -42,10 +52,9 @@ public class VendorServiceImpl implements VendorService {
             vendor.setEmailVerified(false);
             vendor.setFirstName(vendorRegisterDto.getFirstName());
             vendor.setLastName(vendorRegisterDto.getLastName());
-            //password must be encrypted
-            vendor.setPassword(vendorRegisterDto.getPassword());
+            vendor.setPassword(passwordEncoder.encode(vendorRegisterDto.getPassword()));
             vendor.setMobile(vendorRegisterDto.getMobile());
-
+            vendor.setStatus(UserStatus.PENDING);
             sendVerificationCode(vendorRegisterDto.getEmail());
 
             vendor = vendorRepository.save(vendor);
@@ -111,6 +120,7 @@ public class VendorServiceImpl implements VendorService {
                 System.out.println("INFO: VendorService.checkVerificationCode: Code verified successfully");
                 Vendor vendor = optionalVendor.get();
                 vendor.setEmailVerified(true);
+                vendor.setStatus(UserStatus.ACTIVE);
                 vendorRepository.save(vendor);
                 return;
             }
@@ -124,4 +134,37 @@ public class VendorServiceImpl implements VendorService {
         }
     }
 
+    @Override
+    public List<VendorDto> getAllVendors(String text) {
+        return vendorRepository.findByText(text).stream().map(vendor ->
+                new VendorDto(
+                        vendor.getId(),
+                        vendor.getFirstName(),
+                        vendor.getLastName(),
+                        vendor.getNic(),
+                        vendor.getEmail(),
+                        vendor.getMobile(),
+                        vendor.getType())).collect(Collectors.toList());
+
+    }
+
+    @Override
+    public VendorDto getVendorById(long id) {
+        Vendor vendor = vendorRepository.findById(id).orElseThrow(() -> new CustomServiceException("Vendor not found"));
+        return new VendorDto(
+                vendor.getId(),
+                vendor.getFirstName(),
+                vendor.getLastName(),
+                vendor.getNic(),
+                vendor.getEmail(),
+                vendor.getMobile(),
+                vendor.getType(),
+                vendor.getAddressLine1(),
+                vendor.getAddressLine2(),
+                vendor.getCity(),
+                vendor.getProvince(),
+                vendor.getPostalCode(),
+                accommodationService.getAccommodationsForVendor(vendor),
+                vehicleService.getVehiclesForVendor(vendor));
+    }
 }

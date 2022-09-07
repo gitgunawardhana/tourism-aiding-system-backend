@@ -29,9 +29,6 @@ public class AdminLocationController {
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
         } catch (Exception ee) {
             ee.printStackTrace();
-            if (ee.getMessage().startsWith("Packet for query is too large")) {
-                return ResponseEntity.ok(new CommonResponse<>(false, "Given image sizes are too big"));
-            }
             return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
     }
@@ -46,9 +43,6 @@ public class AdminLocationController {
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
         } catch (Exception ee) {
             ee.printStackTrace();
-            if (ee.getMessage().startsWith("Packet for query is too large")) {
-                return ResponseEntity.ok(new CommonResponse<>(false, "Given image sizes are too big"));
-            }
             return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
     }
@@ -115,9 +109,6 @@ public class AdminLocationController {
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
         } catch (Exception ee) {
             ee.printStackTrace();
-            if (ee.getMessage().startsWith("Packet for query is too large")) {
-                return ResponseEntity.ok(new CommonResponse<>(false, "Given image sizes are too big"));
-            }
             return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
     }
@@ -132,9 +123,6 @@ public class AdminLocationController {
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
         } catch (Exception ee) {
             ee.printStackTrace();
-            if (ee.getMessage().startsWith("Packet for query is too large")) {
-                return ResponseEntity.ok(new CommonResponse<>(false, "Given image sizes are too big"));
-            }
             return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
         }
     }

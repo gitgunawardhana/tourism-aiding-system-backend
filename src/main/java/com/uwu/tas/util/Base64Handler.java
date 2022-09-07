@@ -14,7 +14,7 @@ public class Base64Handler {
             throw new CustomServiceException("Invalid base64 data.");
         String b64 = base64File.split(",", 2)[1];
         byte[] file = Base64.getDecoder().decode(b64.getBytes(StandardCharsets.UTF_8));
-        if (file.length > 15000000) throw new CustomServiceException("File size is larger than 15Mb!");
+        if (file.length > 4194304) throw new CustomServiceException("Image size is larger than allowed maximum size 4 MB");
         return file;
     }
 }

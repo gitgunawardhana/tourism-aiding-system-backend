@@ -29,11 +29,11 @@ public class VendorUserController {
         }
     }
 
-    @PatchMapping(value = "/verify")
+    @PostMapping(value = "/verify")
     public ResponseEntity verifyVendor(@RequestBody VendorCodeVerifyDto vendorCodeVerifyDto) {
         try {
             vendorService.verifyVendor(vendorCodeVerifyDto);
-            return ResponseEntity.ok(new CommonResponse<VendorRegisterDto>(true, "Verification ssuccessful"));
+            return ResponseEntity.ok(new CommonResponse<VendorRegisterDto>(true, "Verification successful"));
         } catch (CustomServiceException ce) {
             return ResponseEntity.ok(new CommonResponse<>(false, ce.getMessage()));
         } catch (Exception e) {
