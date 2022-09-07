@@ -9,5 +9,5 @@ import org.springframework.stereotype.Service;
 public interface VehicleReservationService {
     VehicleReservation saveVehicleReservation(VehicleReservationDto vehicleReservationDto);
 
-    ReservationVehicleDetail saveReservationVehicleDetail(VehicleReservationDto vehicleReservationDto);
+    void saveReservationVehicleDetail(VehicleReservationDto vehicleReservationDto);
 }

@@ -13,6 +13,9 @@ import com.uwu.tas.service.VehicleReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Service
 @RequiredArgsConstructor
 public class VehicleReservationServiceImpl implements VehicleReservationService {
@@ -25,9 +28,13 @@ public class VehicleReservationServiceImpl implements VehicleReservationService 
     @Override
     public VehicleReservation saveVehicleReservation(VehicleReservationDto vehicleReservationDto) {
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(vehicleReservationDto.getDateTime(), formatter);
+
+
         VehicleReservation vehicleReservation = new VehicleReservation();
 
-        vehicleReservation.setDateTime(vehicleReservationDto.getDateTime());
+        vehicleReservation.setDateTime(dateTime);
         vehicleReservation.setDropOffLocation(vehicleReservationDto.getDropOffLocation());
         vehicleReservation.setPickupLocation(vehicleReservationDto.getPickupLocation());
         vehicleReservation.setTotalPrice(vehicleReservationDto.getTotalPrice());
@@ -37,14 +44,14 @@ public class VehicleReservationServiceImpl implements VehicleReservationService 
     }
 
     @Override
-    public ReservationVehicleDetail saveReservationVehicleDetail(VehicleReservationDto vehicleReservationDto) {
+    public void saveReservationVehicleDetail(VehicleReservationDto vehicleReservationDto) {
         ReservationVehicleDetail reservationVehicleDetail = new ReservationVehicleDetail();
 
         reservationVehicleDetail.setPrice(vehicleReservationDto.getTotalPrice());
         reservationVehicleDetail.setVehicleReservation(saveVehicleReservation(vehicleReservationDto));
         reservationVehicleDetail.setVehicle(vehicleRepository.getById(vehicleReservationDto.getVehicleId()));
 
-        return reservationVehicleDetailRepository.save(reservationVehicleDetail);
+        reservationVehicleDetailRepository.save(reservationVehicleDetail);
     }
 
 

@@ -17,7 +17,7 @@ public class VehicleReservationDto {
     private long vehicleId;
     private String email;
     private String mobile;
-    private LocalDateTime dateTime;
+    private String dateTime;
     private String dropOffLocation;
     private String pickupLocation;
     private long totalPrice;
