@@ -1,10 +1,8 @@
 package com.uwu.tas.controller.vendor;
-
 import com.uwu.tas.dto.CommonResponse;
 import com.uwu.tas.dto.accommodation.PackagesDto;
 import com.uwu.tas.dto.accommodation.RoomDto;
 import com.uwu.tas.dto.vendor.*;
-import com.uwu.tas.entity.AccommodationPicture;
 import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.service.AccommodationService;
 import lombok.RequiredArgsConstructor;

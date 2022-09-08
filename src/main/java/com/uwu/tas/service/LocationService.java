@@ -38,5 +38,15 @@ public interface LocationService {
 
     List<LocationAttractionDto> getLocationAttractionsByLocation(long locationId, String text);
 
+    List<LocationAttractionDto> getAllLocationAttractions();
+
     LocationAttractionDto getLocationAttractionById(long id);
+
+    List<LocationAttractionDto> getTopAttractions();
+
+    List<LocationAttractionDto> getAllAttractionsByLocation(long locationId);
+
+    List<LocationAttractionDto> getThreeAttractionsByLocation(long locationId);
+
+    List<LocationAttractionDto> getRandThreeAttractionsByLocation(long locationId);
 }
