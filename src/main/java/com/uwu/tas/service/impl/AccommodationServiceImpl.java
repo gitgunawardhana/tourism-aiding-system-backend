@@ -43,6 +43,8 @@ public class AccommodationServiceImpl implements AccommodationService {
     private final LocationRepository locationRepository;
     private final RoomReservationRepository roomReservationRepository;
     private final AccommodationTypeRepository accommodationTypeRepository;
+    private final PublicUserRepository publicUserRepository;
+    private final ReservationPackageDetailRepository reservationPackageDetailRepository;
 
     @Override
     public List<AccommodationDto> getAccommodationsForVendor(Vendor vendor) {
@@ -473,6 +475,49 @@ public class AccommodationServiceImpl implements AccommodationService {
         }).collect(Collectors.toList()));
 
         return result;
+    }
+
+    @Override
+    @Transactional
+    public void reserveAccommodationPackage(ReservationRequestDto dto) {
+
+        PublicUser publicUser = publicUserRepository.findById(dto.getUserId()).orElseThrow(() -> new CustomServiceException("Public User Not Found"));
+
+        RoomReservation roomReservation = new RoomReservation();
+        roomReservation.setReservationStartDate(dto.getStartDate());
+        roomReservation.setReservationEndDate(dto.getEndDate());
+        roomReservation.setPublicUser(publicUser);
+
+        double totalPrice = 0;
+
+        List<ReservationPackageDetail> reservationPackageDetails = new ArrayList<>();
+
+        for (SelectedRoomPackageDto sr : dto.getSelectedRoomPackages()) {
+            RoomPackage rp = roomPackageRepository.findById(sr.getId()).orElseThrow(() -> new CustomServiceException("Room Package Not Found"));
+            boolean exists = reservationPackageDetailRepository.existsByRoomPackageAndRoomReservation_PublicUserAndRoomReservation_ReservationStartDateAndRoomReservation_ReservationEndDate(
+                    rp,
+                    publicUser,
+                    dto.getStartDate(),
+                    dto.getEndDate()
+            );
+            if (exists)
+                throw new CustomServiceException("You have already reserved " + rp.getRoom().getName() + " for these days");
+            if (sr.getCount() != 0) {
+                totalPrice += (rp.getPrice().doubleValue() * (1 - rp.getDiscount())) * sr.getCount();
+                reservationPackageDetails.add(new ReservationPackageDetail(
+                        rp.getPrice(),
+                        rp.getDiscount(),
+                        sr.getCount(),
+                        roomReservation,
+                        rp
+                ));
+            }
+        }
+        roomReservation.setTotalPrice(BigDecimal.valueOf(totalPrice));
+
+        roomReservationRepository.save(roomReservation);
+        reservationPackageDetailRepository.saveAll(reservationPackageDetails);
+
     }
 
 }

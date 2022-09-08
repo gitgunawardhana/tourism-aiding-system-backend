@@ -34,4 +34,6 @@ public interface AccommodationService {
     List<AccommodationSearchResultDto> searchPackagesForAccommodation(AccommodationSearchDto accommodationSearchDto);
 
     AccommodationReservationViewDto getReservationViewDetails(ReservationViewRequestDto reservationViewRequestDto);
+
+    void reserveAccommodationPackage(ReservationRequestDto dto);
 }

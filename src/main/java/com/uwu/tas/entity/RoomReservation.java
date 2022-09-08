@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,8 +24,11 @@ public class RoomReservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @CreationTimestamp
     private LocalDateTime dateTime;
-    private double totalPrice;
+
+    @Digits(integer = 9, fraction = 2)
+    private BigDecimal totalPrice;
 
     private LocalDate reservationStartDate;
     private LocalDate reservationEndDate;

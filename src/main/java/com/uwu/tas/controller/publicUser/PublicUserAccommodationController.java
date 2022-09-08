@@ -82,6 +82,7 @@ public class PublicUserAccommodationController {
     @PostMapping(value = "/package/search")
     public ResponseEntity searchPackagesForAccommodation(@RequestBody AccommodationSearchDto accommodationSearchDto) {
         try {
+            System.out.println(accommodationSearchDto);
             List<AccommodationSearchResultDto> result = accommodationService.searchPackagesForAccommodation(accommodationSearchDto);
             return ResponseEntity.ok(new CommonResponse<>(true, result));
         } catch (CustomServiceException e) {
@@ -98,6 +99,22 @@ public class PublicUserAccommodationController {
         try {
             AccommodationReservationViewDto result = accommodationService.getReservationViewDetails(reservationViewRequestDto);
             return ResponseEntity.ok(new CommonResponse<>(true, result));
+        } catch (CustomServiceException e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            return ResponseEntity.ok(new CommonResponse<>(false, "Something went wrong!"));
+        }
+    }
+
+    @PostMapping(value = "/reserve")
+    public ResponseEntity reserveAccommodationPackage(@RequestBody ReservationRequestDto dto) {
+        try {
+            System.out.println("reserveAccommodationPackage");
+            System.out.println(dto);
+            accommodationService.reserveAccommodationPackage(dto);
+            return ResponseEntity.ok(new CommonResponse<>(true, "Your Reservation is Successful"));
         } catch (CustomServiceException e) {
             e.printStackTrace();
             return ResponseEntity.ok(new CommonResponse<>(false, e.getMessage()));
