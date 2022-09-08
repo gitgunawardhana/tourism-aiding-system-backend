@@ -16,10 +16,8 @@ public class VendorAccommodationBasicDetailsDto {
     private long vendorId;
     private long accommodationId;
     private String name;
-    @Lob
     private String description;
     private String email;
     private String telephone;
-
-
+    private long accommodationTypeId;
 }

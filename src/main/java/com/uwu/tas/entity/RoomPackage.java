@@ -30,6 +30,7 @@ public class RoomPackage {
 
     private boolean payAtProperty;
     private boolean freeCancellation;
+    private boolean breakfastIncluded;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn

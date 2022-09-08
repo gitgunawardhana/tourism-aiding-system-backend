@@ -22,6 +22,7 @@ public class FileServiceImpl implements FileService {
     private final AccommodationTypeRepository accommodationTypeRepository;
     private final FacilityRepository facilityRepository;
     private final BathroomFacilityRepository bathroomFacilityRepository;
+    private final AccommodationPictureRepository accommodationPictureRepository;
 
     @Override
     public Resource getActivityImage(long id) {
@@ -90,6 +91,16 @@ public class FileServiceImpl implements FileService {
     @Override
     public Resource getBathroomFacilityImage(long id) {
         Optional<BathroomFacility> optional = bathroomFacilityRepository.findById(id);
+        if (optional.isPresent()) {
+            byte[] image = optional.get().getImage();
+            return new ByteArrayResource(image);
+        }
+        return null;
+    }
+
+    @Override
+    public Resource getAccommodationImage(long id) {
+        Optional<AccommodationPicture> optional = accommodationPictureRepository.findById(id);
         if (optional.isPresent()) {
             byte[] image = optional.get().getImage();
             return new ByteArrayResource(image);

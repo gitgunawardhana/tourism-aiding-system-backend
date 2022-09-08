@@ -11,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class VendorAccommodationLocationDetailsDto {
+    private long locationId;
     private long accommodationId;
     private String addressLine1;
     private String buildingNo;

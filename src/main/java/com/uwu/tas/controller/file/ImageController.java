@@ -52,4 +52,9 @@ public class ImageController {
     public Resource getBathroomFacilityImage(@PathVariable(value = "id") long id) {
         return fileService.getBathroomFacilityImage(id);
     }
+
+    @GetMapping(value = "/image/accommodation/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public Resource getAccommodationImage(@PathVariable(value = "id") long id) {
+        return fileService.getAccommodationImage(id);
+    }
 }

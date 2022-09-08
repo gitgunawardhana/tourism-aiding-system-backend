@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,6 +23,9 @@ public class RoomReservation {
 
     private LocalDateTime dateTime;
     private double totalPrice;
+
+    private LocalDate reservationStartDate;
+    private LocalDate reservationEndDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn

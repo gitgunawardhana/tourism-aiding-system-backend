@@ -1,8 +1,6 @@
 package com.uwu.tas.service;
 
-import com.uwu.tas.dto.accommodation.AccommodationDto;
-import com.uwu.tas.dto.accommodation.PackagesDto;
-import com.uwu.tas.dto.accommodation.RoomDto;
+import com.uwu.tas.dto.accommodation.*;
 import com.uwu.tas.entity.Vendor;
 import org.springframework.stereotype.Service;
 import com.uwu.tas.dto.vendor.*;
@@ -30,4 +28,10 @@ public interface AccommodationService {
     void saveRoom(RoomDto roomDto);
 
     void saveRoomPackages(PackagesDto packagesDto);
+
+    List<AccommodationSearchResultDto> searchAccommodations(AccommodationSearchDto accommodationSearchDto);
+
+    List<AccommodationSearchResultDto> searchPackagesForAccommodation(AccommodationSearchDto accommodationSearchDto);
+
+    AccommodationReservationViewDto getReservationViewDetails(ReservationViewRequestDto reservationViewRequestDto);
 }

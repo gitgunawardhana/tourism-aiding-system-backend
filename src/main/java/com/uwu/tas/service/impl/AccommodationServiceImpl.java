@@ -1,11 +1,9 @@
 package com.uwu.tas.service.impl;
 
-import com.uwu.tas.dto.accommodation.AccommodationDto;
-import com.uwu.tas.dto.accommodation.PackageDto;
-import com.uwu.tas.dto.accommodation.PackagesDto;
-import com.uwu.tas.dto.accommodation.RoomDto;
+import com.uwu.tas.dto.accommodation.*;
 import com.uwu.tas.dto.vendor.*;
 import com.uwu.tas.entity.*;
+import com.uwu.tas.enums.HousingFacilityType;
 import com.uwu.tas.enums.VendorType;
 import com.uwu.tas.exception.CustomServiceException;
 import com.uwu.tas.repository.*;
@@ -16,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +40,9 @@ public class AccommodationServiceImpl implements AccommodationService {
     private final RoomBathroomFacilityDetailRepository roomBathroomFacilityDetailRepository;
     private final FacilityRepository facilityRepository;
     private final BathroomFacilityRepository bathroomFacilityRepository;
+    private final LocationRepository locationRepository;
+    private final RoomReservationRepository roomReservationRepository;
+    private final AccommodationTypeRepository accommodationTypeRepository;
 
     @Override
     public List<AccommodationDto> getAccommodationsForVendor(Vendor vendor) {
@@ -87,13 +89,22 @@ public class AccommodationServiceImpl implements AccommodationService {
 //                accommodation.isParking(),
 //                accommodation.isSmoking(),
 //                accommodation.isPets(),
-                getPicturesForAccommodation(accommodation));
+                getPicturesForAccommodation(accommodation, 0));
     }
 
-    private List<String> getPicturesForAccommodation(Accommodation accommodation) {
-        return accommodation.getAccommodationPictures().stream()
-                .map(accommodationPicture -> ACCOMMODATION_IMAGE_BASE_USER + "/" + accommodationPicture.getId())
-                .collect(Collectors.toList());
+    private List<String> getPicturesForAccommodation(Accommodation accommodation, int limit) {
+        if (limit == 0) {
+            return accommodation.getAccommodationPictures().stream()
+                    .map(accommodationPicture -> ACCOMMODATION_IMAGE_BASE_USER + "/" + accommodationPicture.getId())
+                    .collect(Collectors.toList());
+        } else {
+            List<String> images = new ArrayList<>();
+            List<AccommodationPicture> accommodationPictures = accommodation.getAccommodationPictures();
+            for (int i = 0; i < limit; i++) {
+                images.add(ACCOMMODATION_IMAGE_BASE_USER + "/" + accommodationPictures.get(i).getId());
+            }
+            return images;
+        }
     }
 
 
@@ -109,12 +120,14 @@ public class AccommodationServiceImpl implements AccommodationService {
         if (!optionalVendor.isPresent()) {
             throw new CustomServiceException(404, "Vendor not found");
         }
+        AccommodationType accommodationType = accommodationTypeRepository.findById(vendorAccommodationBasicDetailsDto.getAccommodationTypeId()).orElseThrow(() -> new CustomServiceException("Accommodation Type Not Found"));
         Vendor vendor = optionalVendor.get();
         Accommodation accommodation = new Accommodation();
         accommodation.setName(vendorAccommodationBasicDetailsDto.getName());
         accommodation.setDescription(vendorAccommodationBasicDetailsDto.getDescription());
         accommodation.setEmail(vendorAccommodationBasicDetailsDto.getEmail());
         accommodation.setTelephone(vendorAccommodationBasicDetailsDto.getTelephone());
+        accommodation.setAccommodationType(accommodationType);
         accommodation.setVendor(vendor);
 
         accommodation = accommodationRepository.save(accommodation);
@@ -131,6 +144,8 @@ public class AccommodationServiceImpl implements AccommodationService {
         }
         Accommodation accommodation = optionalAccommodation.get();
 
+        Location location = locationRepository.findById(vendorAccommodationLocationDetailsDto.getLocationId()).orElseThrow(() -> new CustomServiceException("Location Not FOund"));
+        accommodation.setLocation(location);
         accommodation.setAddressLine1(vendorAccommodationLocationDetailsDto.getAddressLine1());
         accommodation.setBuildingNo(vendorAccommodationLocationDetailsDto.getBuildingNo());
         accommodation.setCity(vendorAccommodationLocationDetailsDto.getCity());
@@ -295,5 +310,170 @@ public class AccommodationServiceImpl implements AccommodationService {
         }
         roomPackageRepository.saveAll(roomPackages);
     }
+
+    @Override
+    public List<AccommodationSearchResultDto> searchAccommodations(AccommodationSearchDto accommodationSearchDto) {
+
+        Period period = Period.between(accommodationSearchDto.getCheckInDate(), accommodationSearchDto.getCheckOutDate());
+
+        Location location = locationRepository.findById(accommodationSearchDto.getLocationId()).orElseThrow(() -> new CustomServiceException("Location Not Found"));
+        List<Accommodation> allAccommodations = accommodationRepository.findAllByLocation(location);
+
+        List<AccommodationSearchResultDto> result = new ArrayList<>();
+        for (Accommodation accommodation : allAccommodations) {
+            if (accommodationSearchDto.getAccommodationTypes().size() == 0 || accommodationSearchDto.getAccommodationTypes().contains(accommodation.getAccommodationType().getId())) {
+                RoomPackage roomPackage = null;
+                boolean gotResult = false;
+                while (!gotResult) {
+                    List<RoomPackage> roomPackages = roomPackageRepository.searchAvailablePackageByAccommodation(
+                            accommodation);
+                    for (RoomPackage rp : roomPackages) {
+                        long reservedCount = roomReservationRepository.checkPackageAvailability(rp,
+                                accommodationSearchDto.getCheckInDate(),
+                                accommodationSearchDto.getCheckOutDate());
+                        if (reservedCount == 0) {
+                            roomPackage = rp;
+                            gotResult = true;
+                            break;
+                        }
+                    }
+                    if (!gotResult) gotResult = true;
+
+                }
+                if (roomPackage != null) {
+                    Room room = roomPackage.getRoom();
+                    AccommodationSearchResultDto accommodationSearchResultDto = new AccommodationSearchResultDto(
+                            roomPackage.getId(),
+                            accommodation.getId(),
+                            accommodation.getName(),
+                            room.getName(),
+                            accommodation.getAddressLine1() + " " + accommodation.getBuildingNo() + " " + accommodation.getAddressLine1(),
+                            getPicturesForAccommodation(accommodation, 5),
+                            getAccommodationFacilities(accommodation, HousingFacilityType.OTHER),
+                            room.getSize(),
+                            roomPackage.getBedDetails(),
+                            room.getDescription(),
+                            roomPackage.isFreeCancellation(),
+                            roomPackage.isPayAtProperty(),
+                            roomPackage.isBreakfastIncluded(),
+                            room.getView().getName(),
+                            accommodation.getRating(),
+                            accommodation.getRatingCount(),
+                            getRatingMessageForRating(accommodation.getRating()),
+                            roomPackage.getDiscount(),
+                            roomPackage.getPrice().doubleValue(),
+                            (roomPackage.getPrice().doubleValue() * (1 - roomPackage.getDiscount())),
+                            accommodationSearchDto.getNoOfPeople(),
+                            period.getDays(),
+                            room.getAvailableCount(),
+                            null
+                    );
+                    accommodationSearchResultDto.setAvailableCount(room.getAvailableCount());
+                    result.add(accommodationSearchResultDto);
+                }
+            }
+        }
+        return result;
+    }
+
+    private String getRatingMessageForRating(double rating) {
+        if (rating >= 9) {
+            return "EXCEPTIONAL";
+        } else if (rating >= 8) {
+            return "EXCELLENT";
+        } else if (rating >= 7) {
+            return "VERY GOOD";
+        } else if (rating >= 6) {
+            return "GOOD";
+        } else {
+            return "PASSABLE";
+        }
+
+    }
+
+    private List<String> getAccommodationFacilities(Accommodation accommodation, HousingFacilityType type) {
+        if (type.equals(HousingFacilityType.ALL)) {
+            return accommodationFacilityRepository.findAllByAccommodation(accommodation).stream()
+                    .map(accommodationFacility -> accommodationFacility.getHousingFacility().getName())
+                    .collect(Collectors.toList());
+        }
+        return accommodationFacilityRepository.findAllByAccommodationAndHousingFacility_Type(accommodation, type).stream()
+                .map(accommodationFacility -> accommodationFacility.getHousingFacility().getName())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AccommodationSearchResultDto> searchPackagesForAccommodation(AccommodationSearchDto accommodationSearchDto) {
+
+        Period period = Period.between(accommodationSearchDto.getCheckInDate(), accommodationSearchDto.getCheckOutDate());
+
+        Accommodation accommodation = accommodationRepository.findById(accommodationSearchDto.getAccommodationId()).orElseThrow(() -> new CustomServiceException("Accommodation Not Found!"));
+        List<AccommodationSearchResultDto> result = new ArrayList<>();
+
+
+        List<RoomPackage> roomPackages = roomPackageRepository.searchAvailablePackageByAccommodation(
+                accommodation);
+        for (RoomPackage rp : roomPackages) {
+            long reservedCount = roomReservationRepository.checkPackageAvailability(rp,
+                    accommodationSearchDto.getCheckInDate(),
+                    accommodationSearchDto.getCheckOutDate());
+            if (reservedCount == 0) {
+                Room room = rp.getRoom();
+                AccommodationSearchResultDto accommodationSearchResultDto = new AccommodationSearchResultDto(
+                        rp.getId(),
+                        accommodation.getId(),
+                        accommodation.getName(),
+                        room.getName(),
+                        accommodation.getAddressLine1() + " " + accommodation.getBuildingNo() + " " + accommodation.getAddressLine1(),
+                        getPicturesForAccommodation(accommodation, 0),
+                        getAccommodationFacilities(accommodation, HousingFacilityType.ALL),
+                        room.getSize(),
+                        rp.getBedDetails(),
+                        room.getDescription(),
+                        rp.isFreeCancellation(),
+                        rp.isPayAtProperty(),
+                        rp.isBreakfastIncluded(),
+                        room.getView().getName(),
+                        accommodation.getRating(),
+                        accommodation.getRatingCount(),
+                        getRatingMessageForRating(accommodation.getRating()),
+                        rp.getDiscount(),
+                        rp.getPrice().doubleValue(),
+                        (rp.getPrice().doubleValue() * (1 - rp.getDiscount())),
+                        rp.getNoOfPeople(),
+                        period.getDays(),
+                        room.getAvailableCount(),
+                        null
+                );
+                accommodationSearchResultDto.setAvailableCount(room.getAvailableCount());
+                result.add(accommodationSearchResultDto);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public AccommodationReservationViewDto getReservationViewDetails(ReservationViewRequestDto dto) {
+
+        AccommodationReservationViewDto result = new AccommodationReservationViewDto();
+
+        Accommodation accommodation = accommodationRepository.findById(dto.getAccommodationId()).orElseThrow(() -> new CustomServiceException("Accommodation Not Found"));
+        result.setAccommodationName(accommodation.getName());
+        result.setAccommodationImage(ACCOMMODATION_IMAGE_BASE_USER + "/" + accommodation.getAccommodationPictures().get(0).getId());
+        result.setAccommodationAddress(accommodation.getAddressLine1() + " " + accommodation.getBuildingNo() + " " + accommodation.getCity());
+        result.setDescription(accommodation.getDescription());
+        result.setSelectedRooms(dto.getSelectedRoomPackages().stream().map(sr -> {
+            RoomPackage rp = roomPackageRepository.findById(sr.getId()).orElseThrow(() -> new CustomServiceException("Room Package Not Found"));
+            return new RoomReservationDto(
+                    rp.getRoom().getName(),
+                    sr.getCount(),
+                    rp.getPrice().doubleValue(),
+                    rp.getDiscount()
+            );
+        }).collect(Collectors.toList()));
+
+        return result;
+    }
+
 }
 

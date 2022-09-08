@@ -15,4 +15,11 @@ public class RoomReservationDto {
     private double price;
     private double discount;
     private double total;
+
+    public RoomReservationDto(String roomName, int numberOfReservedRooms, double price, double discount) {
+        this.roomName = roomName;
+        this.numberOfReservedRooms = numberOfReservedRooms;
+        this.price = price;
+        this.discount = discount;
+    }
 }

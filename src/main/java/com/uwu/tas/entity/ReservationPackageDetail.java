@@ -25,4 +25,9 @@ public class ReservationPackageDetail {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private RoomReservation roomReservation;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private RoomPackage roomPackage;
+
 }

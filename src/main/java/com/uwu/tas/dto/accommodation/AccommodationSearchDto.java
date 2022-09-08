@@ -23,4 +23,5 @@ public class AccommodationSearchDto {
     private List<Integer> reviewScore;
     private List<Long> housingFacilities;
     private AccommodationSortingOption sortingOption;
+    private long accommodationId;
 }

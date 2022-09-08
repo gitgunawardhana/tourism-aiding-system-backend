@@ -20,4 +20,6 @@ public interface FileService {
     Resource getFacilityImage(long id);
 
     Resource getBathroomFacilityImage(long id);
+
+    Resource getAccommodationImage(long id);
 }
